@@ -1,0 +1,5278 @@
+Sub Autozoom
+
+
+
+ActiveDocument.GetApplication.WaitForIdle
+ActiveDocument.ActiveSheet.FitZoomToWindow
+
+End Sub
+
+
+
+SUB Tradedetails
+END SUB
+
+sub prod360
+'MACRO FOR PROD 360 INTEGRATION FOR DIRECT LINK 
+'ex. qvp://......qvw?MACRO=prod360
+'ED 11/16/2011
+
+ActiveDocument.Sheets("Production 360").Activate
+
+
+end sub
+
+SUB Touchpoints
+END SUB
+
+
+
+sub SelectPossibleMaster
+set fld=ActiveDocument.GetField("MASTER_ID")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	ActiveDocument.Fields("TimeSegmentation").Select "YTD"
+    ActiveDocument.Fields("Ranks").Select "Global"
+    ActiveDocument.Fields("%UnitPicker").Select "1"
+	ActiveDocument.Fields("Functional Region").Clear
+	ActiveDocument.Fields("Super Segmentation").Clear
+	ActiveDocument.Fields("Master Segmentation").Clear
+	ActiveDocument.Fields("Sub Master Segmentation").Clear
+	ActiveDocument.Fields("MASTER").SelectPossible
+    set v = ActiveDocument.GetVariable("vProductShow")
+		v.SetContent "1",true
+		end if
+end sub
+
+
+
+sub SelectPossibleSubMaster
+set fld=ActiveDocument.GetField("SUB_MASTER_ID")
+
+'ONLY SELECT POSSIBLE WHEN ONLY ONE SUB_MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	ActiveDocument.Fields("TimeSegmentation").Select "YTD"
+    ActiveDocument.Fields("Ranks").Select "Global"
+    ActiveDocument.Fields("%UnitPicker").Select "1"
+	ActiveDocument.Fields("Functional Region").Clear
+	ActiveDocument.Fields("Super Segmentation").Clear
+	ActiveDocument.Fields("Master Segmentation").Clear
+	ActiveDocument.Fields("Sub Master Segmentation").Clear
+    ActiveDocument.Fields("SUB MASTER").SelectPossible
+    set v = ActiveDocument.GetVariable("vProductShow")
+		v.SetContent "1",true
+
+		end if
+end sub
+
+
+sub SelectPossibleSuperMaster
+set fld=ActiveDocument.GetField("SUPER_MASTER_ID")
+
+'ONLY SELECT POSSIBLE WHEN ONLY ONE SUPER_MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then	
+	ActiveDocument.Fields("TimeSegmentation").Select "YTD"
+    ActiveDocument.Fields("Ranks").Select "Global"
+    ActiveDocument.Fields("%UnitPicker").Select "1"
+	ActiveDocument.Fields("Functional Region").Clear
+	ActiveDocument.Fields("Super Segmentation").Clear
+	ActiveDocument.Fields("Master Segmentation").Clear
+	ActiveDocument.Fields("Sub Master Segmentation").Clear
+	ActiveDocument.Fields("SUPER MASTER").SelectPossible
+    set v = ActiveDocument.GetVariable("vProductShow")
+		v.SetContent "1",true
+		end if
+end sub
+
+
+
+'SUB Excel5Days
+'set obj = ActiveDocument.GetSheetObject( "CH213" )
+'w = obj.GetColumnCount
+'if obj.GetRowCount>1000 then
+'		h=1001 
+'		else h=obj.GetRowCount
+'		end if
+'Set objExcel = CreateObject("Excel.Application")
+'objExcel.Workbooks.Add
+'objExcel.Worksheets(1).select()
+'objExcel.Visible = True
+'
+'set CellMatrix = obj.GetCells2(0,0,w,h)
+'
+'column = 1
+'for cc=0 to 8
+'       objExcel.Cells(1,column).Value = CellMatrix(0)(cc).Text
+'       objExcel.Cells(1,column).EntireRow.Font.Bold = True
+'       column = column +1
+'next
+'
+'c = 1
+'r =2
+'for RowIter=1 to h-1   
+'    for ColIter=0 to 8            
+'       objExcel.Cells(r,c).Value =  CellMatrix(RowIter)(ColIter).Text
+'        'msgbox(CellMatrix(RowIter)(ColIter).Text)
+'        c = c +1
+'    next
+'    r = r+1
+'       c = 1
+'next
+'
+'END SUB
+
+Sub CreateBM
+
+Set v1 = ActiveDocument.Variables("vCurrUser")
+Set v2 = ActiveDocument.Variables("vCurrOBO")
+user = v1.GetContent.String
+obo = v2.GetContent.String
+preval = user & "_" & obo & "_Preferences"
+
+    ActiveDocument.RemoveUserBookmark preval
+    ActiveDocument.CreateUserBookmark preval
+    'ActiveDocument.CreateDocBookmark false, preval
+End Sub
+
+Sub LoadBM
+
+Set v1 = ActiveDocument.Variables("vCurrUser")
+Set v2 = ActiveDocument.Variables("vCurrOBO")
+user = v1.GetContent.String
+obo = v2.GetContent.String
+preval = user & "_" & obo & "_Preferences"
+
+'set bm = ActiveDocument.GetBookmark(preval)
+	ActiveDocument.RecallUserBookmark preval
+End Sub
+
+Sub ClearBM
+
+Set v1 = ActiveDocument.Variables("vCurrUser")
+Set v2 = ActiveDocument.Variables("vCurrOBO")
+user = v1.GetContent.String
+obo = v2.GetContent.String
+preval = user & "_" & obo & "_Preferences"
+
+    ActiveDocument.RemoveUserBookmark preval
+    'ActiveDocument.CreateDocBookmark false, preval
+End Sub
+
+
+Sub ClearMaster
+
+ActiveDocument.Fields("MASTER").Clear
+
+
+End Sub
+
+
+Sub ClearSubMaster
+
+ActiveDocument.Fields("SUB MASTER").Clear
+
+End Sub
+
+
+Sub ClearSuperMaster
+
+ActiveDocument.Fields("SUPER MASTER").Clear
+
+End Sub
+
+
+Sub ClearMasterID
+
+ActiveDocument.Fields("MASTER_ID").Clear
+
+
+End Sub
+
+
+Sub ClearSubMasterID
+
+ActiveDocument.Fields("SUB_MASTER_ID").Clear
+
+End Sub
+
+
+Sub ClearSuperMasterID
+
+ActiveDocument.Fields("SUPER_MASTER_ID").Clear
+
+End Sub
+
+
+Sub ClearAllClientLevels
+
+ActiveDocument.Fields("MASTER").Clear
+ActiveDocument.Fields("SUB MASTER").Clear
+ActiveDocument.Fields("SUPER MASTER").Clear
+
+End Sub
+
+
+
+ 
+
+
+sub ExportToExcel()
+
+
+
+
+
+'msgbox("Step 1 of 2: Retrieving Data for Export")
+
+
+		
+	    set v = ActiveDocument.GetVariable("vExcelPrint")
+		v.SetContent "1",true 
+		
+       set u = ActiveDocument.GetVariable("vGridType")
+		u.SetContent "1",true 
+
+
+       set x = ActiveDocument.GetVariable("vWindow")
+		x.SetContent "1",true 
+		
+		
+		'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''		
+       'Intialize Marketer chart to display to prevent error
+       set MarkEntCheck = ActiveDocument.Variables("vCBMarketersEntitlement")
+       if(MarkEntCheck.GetContent.String="0") then
+
+          set Mec1 = ActiveDocument.GetVariable("vCBMarketersEntitlement")
+		  Mec1.SetContent "1",true
+
+           ActiveDocument.GetApplication.WaitForIdle
+
+           set Mec2 = ActiveDocument.GetVariable("vCBMarketersEntitlement")
+		   Mec2.SetContent "0",true
+
+        end if	
+
+	
+
+
+'vShowPreCal
+
+
+
+
+ActiveDocument.GetApplication.WaitForIdle
+
+
+'msgbox("Step 2 of 2: Exporting Data")
+
+	
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+	
+		
+		
+
+    Dim aryExport(24,3) 
+
+
+
+ 
+
+
+
+'Product - Global
+aryExport(0,0) = "CH400"
+aryExport(0,1) = "Sheet1"
+aryExport(0,2) = "A1"				
+aryExport(0,3) = "data"
+
+
+'Product - Region
+aryExport(1,0) = "CH397"
+aryExport(1,1) = "Sheet1"
+aryExport(1,2) = "A64"				
+aryExport(1,3) = "data"
+
+
+
+
+'FICC VS EQUITY 	
+aryExport(2,0) = "CH298"
+aryExport(2,1) = "Sheet1"
+aryExport(2,2) = "Q1"				
+aryExport(2,3) = "image"
+
+
+'By Region
+aryExport(3,0) = "CH241"
+aryExport(3,1) = "Sheet1"
+aryExport(3,2) = "Q20"				
+aryExport(3,3) = "image"
+
+
+
+'By Product
+aryExport(4,0) = "CH240"
+aryExport(4,1) = "Sheet1"
+aryExport(4,2) = "Q40"				
+aryExport(4,3) = "image"
+
+
+
+
+
+'LOB - Global
+aryExport(5,0) = "CH401"
+aryExport(5,1) = "Sheet2"
+aryExport(5,2) = "A1"				
+aryExport(5,3) = "data"
+
+
+'LOB - Region
+aryExport(6,0) = "CH388"
+aryExport(6,1) = "Sheet2"
+aryExport(6,2) = "A25"				
+aryExport(6,3) = "data"
+
+
+
+'TouchPoint
+aryExport(7,0) = "CH322"
+aryExport(7,1) = "Sheet3"
+aryExport(7,2) = "A1"				
+aryExport(7,3) = "data"
+
+
+'TouchPoint - Detail
+aryExport(8,0) = "CH362"
+aryExport(8,1) = "Sheet3"
+aryExport(8,2) = "A7"				
+aryExport(8,3) = "data"
+
+
+
+'TouchPoint - Detail
+aryExport(9,0) = "CH313"
+aryExport(9,1) = "Sheet3"
+aryExport(9,2) = "L1"				
+aryExport(9,3) = "image"
+
+
+
+
+'TouchPoint - Detail
+aryExport(10,0) = "CH311"
+aryExport(10,1) = "Sheet3"
+aryExport(10,2) = "L15"				
+aryExport(10,3) = "image"
+
+
+
+'TouchPoint - Detail
+aryExport(11,0) = "CH318"
+aryExport(11,1) = "Sheet3"
+aryExport(11,2) = "L30"				
+aryExport(11,3) = "image"
+
+
+'TouchPoint - Detail
+aryExport(12,0) = "CH319"
+aryExport(12,1) = "Sheet3"
+aryExport(12,2) = "L46"				
+aryExport(12,3) = "image"
+
+
+
+'Marketers - global
+aryExport(13,0) = "CH402"
+aryExport(13,1) = "Sheet4"
+aryExport(13,2) = "A1"				
+aryExport(13,3) = "data"
+
+
+'Marketers - regional
+
+
+aryExport(14,0) = "CH390"
+aryExport(14,1) = "Sheet5"
+aryExport(14,2) = "A1"				
+aryExport(14,3) = "data"
+
+
+'Ranks
+'set vRanksShow1= ActiveDocument.GetVariable("vRanksShow")
+'if vRanksShow1=1 then
+aryExport(15,0) = "CH408"
+'else
+'aryExport(15,0) = "CH410"
+'end if
+
+aryExport(15,1) = "Sheet6"
+aryExport(15,2) = "A1"				
+aryExport(15,3) = "data"
+
+
+
+
+'BookMap - Global 
+aryExport(16,0) = "CH261"
+aryExport(16,1) = "Sheet7"
+aryExport(16,2) = "A1"				
+aryExport(16,3) = "data"
+
+
+'BookMap - Regional
+aryExport(17,0) = "CH407"
+aryExport(17,1) = "Sheet7"
+aryExport(17,2) = "A64"				
+aryExport(17,3) = "data"
+
+
+'FICC VS EQUITY 	
+aryExport(18,0) = "CH298"
+aryExport(18,1) = "Sheet7"
+aryExport(18,2) = "Q1"				
+aryExport(18,3) = "image"
+
+
+'By Region
+aryExport(19,0) = "CH241"
+aryExport(19,1) = "Sheet7"
+aryExport(19,2) = "Q20"				
+aryExport(19,3) = "image"
+
+
+
+'By Product
+aryExport(20,0) = "CH240"
+aryExport(20,1) = "Sheet7"
+aryExport(20,2) = "Q40"				
+aryExport(20,3) = "image"
+
+
+
+'Peer Production Global
+aryExport(21,0) = "CH406"
+aryExport(21,1) = "Sheet8"
+aryExport(21,2) = "A1"				
+aryExport(21,3) = "data"
+
+
+
+''Peer Production GlobalBy Region
+aryExport(22,0) = "CH404"
+aryExport(22,1) = "Sheet8"
+aryExport(22,2) = "A64"				
+aryExport(22,3) = "data"
+
+
+
+
+'Client Hiearchy
+aryExport(23,0) = "CH290"
+aryExport(23,1) = "Sheet9"
+aryExport(23,2) = "A1"				
+aryExport(23,3) = "data"
+
+
+
+'Segmentation
+aryExport(24,0) = "CH293"
+aryExport(24,1) = "Sheet10"
+aryExport(24,2) = "A1"				
+aryExport(24,3) = "data"
+
+
+
+
+
+Dim objExcelWorkbook 'as Excel.Workbook  CS59
+
+
+
+
+Set objExcelWorkbook = copyObjectsToExcelSheet(ActiveDocument, aryExport)
+
+
+	    set x = ActiveDocument.GetVariable("vWindow")
+		x.SetContent "0",true 
+
+
+		
+       set u = ActiveDocument.GetVariable("vGridType")
+		u.SetContent "1",true 
+
+       set vFocus1 = ActiveDocument.GetVariable("vFocus")
+		vFocus1.SetContent "1",true
+	   
+	    set vep = ActiveDocument.GetVariable("vExcelPrint")
+	    if(vep.GetContent.String="1") then
+		  vep.SetContent "0",true 	
+		end if
+		
+		'set vpo = ActiveDocument.GetVariable("vExpPrint")
+	    'if(vpo.GetContent.String="1") then
+		'   vpo.SetContent "0",true 	
+		'end if
+
+end sub
+
+'// ****************************************************************
+Private Function copyObjectsToExcelSheet(qvDoc, aryExportDefinition) 'as Excel.Workbook
+
+
+
+
+
+
+Dim i 'as Integer
+Dim objExcelApp 'as Excel.Application
+Dim objExcelDoc 'as Excel.Workbook
+
+
+
+Set objExcelApp = CreateObject("Excel.Application")
+
+
+   
+objExcelApp.Visible = True 'false if you want to hide Excel
+objExcelApp.DisplayAlerts = false
+
+isError = false			'Handling the exception
+on error resume next
+  
+
+
+Set objExcelDoc = objExcelApp.Workbooks.Add
+
+Dim strSourceObject
+
+Dim qvObjectId 'as String 
+Dim sheetName
+Dim sheetRange
+Dim pasteMode
+Dim objSource
+Dim objCurrentSheet
+Dim objExcelSheet
+
+
+
+
+for i = 0 to UBOUND(aryExportDefinition)
+
+
+
+
+	'// Get the properties of the exportDefinition array
+	qvObjectId = aryExportDefinition(i,0)
+	sheetName = aryExportDefinition(i,1)
+	sheetRange = aryExportDefinition(i,2)
+	pasteMode = aryExportDefinition(i,3)
+  
+           
+	Set objExcelSheet = Excel_GetSheetByName(objExcelDoc, sheetName)
+	if (objExcelSheet is nothing) then
+		Set objExcelSheet = Excel_AddSheet(objExcelApp, sheetName)
+		if (objExcelSheet is nothing) then
+			msgbox("No sheet could be created, this should not occur!!!")
+		end if
+	end if
+             
+      
+    objExcelSheet.Select  
+    
+    
+    ''''''''''Initialize Sheet Settings''''''''''''''''''''''''''''''''
+objExcelApp.ActiveSheet.Cells.Select
+    With objExcelApp.Selection.Font
+        .Name = "Arial"
+        .Size = 10
+	end With
+
+
+
+
+objExcelApp.ActiveSheet.Cells.Select
+objExcelApp.Selection.RowHeight = "12.75"
+''objExcelApp.Selection.NumberFormat = "#,##0"
+
+objExcelApp.Range("A1").Select 
+
+''''''''''Initialize Sheet Settings End''''''''''''''''''''''''''
+
+          
+
+	set objSource = qvDoc.GetSheetObject(qvObjectId)
+	Call objSource.GetSheet().Activate()
+	'objSource.Maximize
+	qvDoc.GetApplication.WaitForIdle
+			
+				
+	if (not objSource is nothing) then
+	
+		if (pasteMode = "image") then
+			Call objSource.CopyBitmapToClipboard()
+		elseif(pasteMode = "text") then
+			Call objSource.CopyTextToClipboard()
+		 else
+			Call objSource.CopyTableToClipboard(true) '// default & fallback
+		end if
+		
+		Set objCurrentSheet = objExcelDoc.Sheets(sheetName)
+		objExcelDoc.Sheets(sheetName).Range(sheetRange).Select
+		'objExcelDoc.Sheets(sheetName).PasteSpecial(1)
+
+		if (pasteMode <> "image") then
+		objExcelDoc.Sheets(sheetName).Paste
+		With objExcelApp.Selection
+            .WrapText = False
+            .ShrinkToFit = False
+            End With   
+		else
+		objExcelDoc.Sheets(sheetName).PasteSpecial(1)
+		end if
+		
+'		if (pasteMode <> "image") then
+'		With objExcelApp.Selection
+'            .WrapText = False
+'            .ShrinkToFit = False
+'		End With                     
+'		end if        
+		
+		'objCurrentSheet.Range("A1").Select    
+	end if
+
+'vTimePeriod               
+    
+'msgbox(err.number)               
+next
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+objExcelDoc.Sheets(1).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Products - GPI"
+objExcelApp.ActiveSheet.Name = "Products - GPI"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+
+
+objExcelDoc.Sheets(2).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "LOB"
+objExcelApp.ActiveSheet.Name = "LOB"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+objExcelApp.ActiveSheet.Columns("C:L").ColumnWidth = 12
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth = 40
+objExcelApp.ActiveSheet.Columns("M").ColumnWidth = 25
+
+
+
+
+
+objExcelDoc.Sheets(3).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "TouchPoints"
+objExcelApp.ActiveSheet.Name = "TouchPoints"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+objExcelApp.ActiveSheet.Columns("A:B").ColumnWidth = 22
+
+
+objExcelDoc.Sheets(4).Select
+
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Marketers Global"
+objExcelApp.ActiveSheet.Name = "Marketers Global"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth = 30
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth = 34
+objExcelApp.ActiveSheet.Columns("D").ColumnWidth = 21
+
+
+objExcelDoc.Sheets(5).Select
+
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Marketers Regional"
+objExcelApp.ActiveSheet.Name = "Marketers Regional"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth = 30
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth = 34
+objExcelApp.ActiveSheet.Columns("D").ColumnWidth = 21
+
+
+
+objExcelDoc.Sheets(6).Select
+
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Broker Ranks"
+objExcelApp.ActiveSheet.Name = "Broker Ranks"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+objExcelApp.ActiveSheet.Columns("A").ColumnWidth = 20
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth = 22
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth = 12
+objExcelApp.ActiveSheet.Columns("D").ColumnWidth = 20
+objExcelApp.ActiveSheet.Columns("E").ColumnWidth = 9
+objExcelApp.ActiveSheet.Columns("F").ColumnWidth = 13
+objExcelApp.ActiveSheet.Columns("G").ColumnWidth = 21
+objExcelApp.ActiveSheet.Columns("H").ColumnWidth = 12
+objExcelApp.ActiveSheet.Columns("I").ColumnWidth = 10
+objExcelApp.ActiveSheet.Columns("J").ColumnWidth = 11
+objExcelApp.ActiveSheet.Columns("K").ColumnWidth = 12
+objExcelApp.ActiveSheet.Columns("L").ColumnWidth = 37
+
+
+
+
+objExcelDoc.Sheets(7).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Products - BookMap"
+objExcelApp.ActiveSheet.Name = "Products - BookMap"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+objExcelDoc.Sheets(8).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Peer Production"
+objExcelApp.ActiveSheet.Name = "Peer Production"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+objExcelDoc.Sheets(9).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Client Hierarchy"
+objExcelApp.ActiveSheet.Name = "Client Hierarchy"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth = 86
+
+
+
+objExcelDoc.Sheets(10).Select
+
+objExcelApp.ActiveSheet.PageSetup.CenterHeader = "Master Segmentation"
+objExcelApp.ActiveSheet.Name = "Master Segmentation"
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 18
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 62
+
+
+objExcelApp.ActiveSheet.Columns("A").ColumnWidth = 31
+objExcelApp.ActiveSheet.Columns("C:K").ColumnWidth = 15
+
+
+
+
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+
+Call Excel_DeleteBlankSheets(objExcelDoc)
+
+'set vRanksShow1= ActiveDocument.GetVariable("vRanksShow")
+'msgbox(vRanksShow1.GetContent.String)
+'if vRanksShow1.GetContent.String="0" then
+'objExcelDoc.Sheets("Broker Ranks").Select
+
+  ' objExcelDoc.ActiveSheet.Delete
+'end if
+
+
+
+ objExcelApp.Range("A1").Select    
+
+
+    set v = ActiveDocument.GetVariable("vExcelPrint")
+		v.SetContent "0",true
+
+
+
+
+'set PrintOut = ActiveDocument.Variables("vPrintOut")
+'  if(PrintOut.GetContent.String="1") then
+'	objExcelApp.ActiveWorkbook.PrintOut
+'	end if
+'
+
+'// Return value
+Set copyObjectsToExcelSheet = objExcelDoc
+if err.number <> 0 then	'Exception handling
+        	msgBox("Download interuppted or Exception occured")
+        	isError = true
+
+else
+
+set PrintOut = ActiveDocument.Variables("vPrintOut")
+
+
+  if(PrintOut.GetContent.String="1") then
+	objExcelApp.ActiveWorkbook.PrintOut
+	
+ActiveDocument.GetApplication.WaitForIdle	
+
+	 set vPO = ActiveDocument.GetVariable("vPrintOut")
+		vPO.SetContent "0",true
+	
+	end if
+
+
+
+
+        	end if
+
+
+
+
+
+'set PrintOut = ActiveDocument.Variables("vPrintOut")
+'
+'
+'  if(PrintOut.GetContent.String="1") then
+'	objExcelApp.ActiveWorkbook.PrintOut
+'	
+'ActiveDocument.GetApplication.WaitForIdle	
+'
+'	 set vPO = ActiveDocument.GetVariable("vPrintOut")
+'		vPO.SetContent "0",true
+'	
+'	end if
+
+
+set vRanksShow1= ActiveDocument.GetVariable("vRanksShow")
+'msgbox(vRanksShow1.GetContent.String)
+if vRanksShow1.GetContent.String="0" then
+objExcelDoc.Sheets("Broker Ranks").Select
+
+   objExcelDoc.ActiveSheet.Delete
+end if
+
+end function
+
+
+
+
+
+'// ________________________________________________________________
+
+
+
+'// ****************************************************************
+'// Internal function for getting the Excel sheet by sheetName
+'// ****************************************************************
+Private Function Excel_GetSheetByName(ByRef objExcelDoc, sheetName) 'as Excel.Sheet
+
+For Each ws In objExcelDoc.Worksheets
+	If (trim(ws.Name) = Excel_GetSafeSheetName(sheetName)) then
+		Set Excel_GetSheetByName = ws
+		exit function
+	End If
+Next
+
+'// default return value
+Set Excel_GetSheetByName = nothing
+                             
+End Function
+'// ________________________________________________________________
+
+
+Private Function Excel_GetSafeSheetName(sheetName)
+
+	'// can be max 31 characters long
+	retVal = trim(left(sheetName, 31))
+	
+	Excel_GetSafeSheetName = retVal
+End Function
+
+
+
+'// ****************************************************************
+'// Internal function for adding a new sheet
+'// ****************************************************************
+Private Function Excel_AddSheet(objExcelApplication, sheetName) ' as Excel.Sheet
+
+	'// add a sheet to the last position
+	objExcelApplication.Sheets.Add , objExcelApplication.Sheets(objExcelApplication.Sheets.Count)
+	
+	Dim objNewSheet
+	Set objNewSheet = objExcelApplication.Sheets(objExcelApplication.Sheets.Count)
+	objNewSheet.Name = left(sheetName,31)
+	
+	'// return the newly created sheet
+	Set Excel_AddSheet = objNewSheet
+
+End function
+'// ________________________________________________________________
+
+
+
+'// ****************************************************************
+'// Delete all empty sheets
+'// ****************************************************************
+Private Sub Excel_DeleteBlankSheets(ByRef objExcelDoc) 
+
+For Each ws In objExcelDoc.Worksheets
+	If (not HasOtherObjects(ws)) then
+		If objExcelDoc.Application.WorksheetFunction.CountA(ws.Cells) = 0 Then
+			On Error Resume Next
+			Call ws.Delete()
+		End If
+	End If
+Next 
+    
+End Sub 
+'// ________________________________________________________________
+
+
+
+
+'// ****************************************************************
+'// Helper function to determine if there are other objects placed
+'// on the sheet ...
+'// ****************************************************************
+Public Function HasOtherObjects(ByRef objSheet) 'As Boolean 
+    Dim c
+    If (objSheet.ChartObjects.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    If (objSheet.Pictures.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    If (objSheet.Shapes.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    
+    
+    HasOtherObjects = false
+End Function  
+
+
+'// ****************************************************************
+'// Expand the pivot before exporting to excel
+Sub Expand
+ set vPivitView = ActiveDocument.Variables("vProductShow")
+   if(vPivitView.GetContent.String="1") then
+	set chart = ActiveDocument.GetSheetObject("CH367")
+	set gp = chart.GetProperties
+	gp.TableProperties.PivotAlwaysFullyExpanded = true
+	chart.SetProperties gp
+   Else
+   	set chart = ActiveDocument.GetSheetObject("CH261")
+	set gp = chart.GetProperties
+	gp.TableProperties.PivotAlwaysFullyExpanded = true
+	chart.SetProperties gp
+   End if
+   'expand client
+   set chart = ActiveDocument.GetSheetObject("CH290")
+	set gp = chart.GetProperties
+	gp.TableProperties.PivotAlwaysFullyExpanded = true
+	chart.SetProperties gp
+	
+	
+End Sub
+'//__________________________________________________________________
+
+'// ****************************************************************
+'// Collapse the pivot after exporting to excel
+Sub Collapse
+ set vPivitView = ActiveDocument.Variables("vProductShow")
+   if(vPivitView.GetContent.String="1") then
+	set chart = ActiveDocument.GetSheetObject("CH367")
+	set gp = chart.GetProperties
+	gp.TableProperties.PivotAlwaysFullyExpanded = false
+	chart.SetProperties gp
+  Else
+   	set chart = ActiveDocument.GetSheetObject("CH261")
+	set gp = chart.GetProperties
+	gp.TableProperties.PivotAlwaysFullyExpanded = false
+	chart.SetProperties gp
+   End if
+End Sub
+'//__________________________________________________________________
+
+'following is sub fror expansion after clicking export and then collapse after export
+'added by viraj on 4th dec 2012
+sub ExpandTP
+	set chartTP = ActiveDocument.GetSheetObject("CH362")
+	set gpTP = chartTP.GetProperties
+	gpTP.TableProperties.PivotAlwaysFullyExpanded = true
+	chartTP.SetProperties gpTP
+End Sub
+
+sub CollapseTP
+	set chartTP = ActiveDocument.GetSheetObject("CH362")
+	set gpTP = chartTP.GetProperties
+	gpTP.TableProperties.PivotAlwaysFullyExpanded = false
+	chartTP.SetProperties gpTP
+End Sub
+
+'Added By Siva 06/27/12
+
+sub ExportButton
+
+ set v = ActiveDocument.Variables("vExport")
+  
+  v.SetContent  "0", True
+  ActiveDocument.GetSheetObject("BU219").SetLayer -2
+   ActiveDocument.GetSheetObject("BU218").SetLayer 1
+     ActiveDocument.GetSheetObject("BU213").SetLayer 1
+
+end sub
+
+
+Sub TopLayer
+
+ActiveDocument.GetSheetObject("BU219").SetLayer 1
+ActiveDocument.GetSheetObject("BU218").SetLayer -2
+ActiveDocument.GetSheetObject("BU213").SetLayer -2
+
+end sub
+
+'End Added By siva 06/27/12
+
+
+
+
+sub test_count
+set objChart = ActiveDocument.GetSheetObject("CH222")
+varRows = objChart.GetRowCount
+
+msgbox varRows
+
+end sub
+
+
+
+ sub QVActiveSession
+End Sub 
+
+
+'sub MasterSelect
+'
+'call ClearMaster
+'call ClearSubMaster
+'call ClearSuperMaster
+'
+'set MyMasterSelect = ActiveDocument.Fields("%Master_Coverage").GetSelectedValues
+'ActiveDocument.Fields("MASTER").SelectValues MyMasterSelect
+'
+'end sub
+'
+'
+'
+'
+'sub SubMasterSelect
+'
+'call ClearMaster
+'call ClearSubMaster
+'call ClearSuperMaster
+'
+'set MySubMasterSelect = ActiveDocument.Fields("%Sub_Master_Coverage").GetSelectedValues
+'ActiveDocument.Fields("SUB MASTER").SelectValues MySubMasterSelect
+'
+'end sub
+'
+'
+'sub SuperMasterSelect
+'
+'call ClearMaster
+'call ClearSubMaster
+'call ClearSuperMaster
+'
+'set MySuperMasterSelect = ActiveDocument.Fields("%Super_Master_Coverage").GetSelectedValues
+'ActiveDocument.Fields("SUPER MASTER").SelectValues MySuperMasterSelect
+'
+'end sub
+
+
+sub FixObjects
+for s = 0 to ActiveDocument.NoOfSheets - 1
+   
+   
+    set vSheet= ActiveDocument.GetSheet(s)
+       Objects = vSheet.GetSheetObjects
+       For i = lBound(Objects) To uBound(Objects)
+              set vObject = Objects(i)
+              set vObjectProp = vObject.GetProperties
+              vOK = 0
+              
+              if vOK=0 AND vObject.GetObjectType = 5 then
+                 vObjectProp.Frame.AllowMoveSize = false
+              vObjectProp.Frame.AllowCopyClone = False
+
+                 vOK = 1
+              end if
+'chart object...
+              if vOK=0 AND ((vObject.GetObjectType >=10 AND vObject.GetObjectType <=16) OR (vObject.GetObjectType >=20 AND vObject.GetObjectType <=22)) then
+                 vObjectProp.GraphLayout.Frame.AllowMoveSize = false
+                  vObjectProp.GraphLayout.Frame.AllowCopyClone = false
+                 vOK = 1
+                 
+                end if
+                
+                if vOK=0 AND ((vObject.GetObjectType >=1 AND vObject.GetObjectType <=4) OR (vObject.GetObjectType >=6 AND vObject.GetObjectType <=9)  OR (vObject.GetObjectType >=17 AND vObject.GetObjectType <=19)) then
+                  vObjectProp.Layout.Frame.AllowMoveSize = false
+                   vObjectProp.Layout.Frame.AllowCopyClone = false
+
+                 vOK = 1
+                 
+                end if
+
+
+              
+           vObject.SetProperties vObjectProp
+              
+       Next
+next
+end sub
+
+
+
+
+sub ReleaseObjects
+for s = 0 to ActiveDocument.NoOfSheets - 1
+   
+   
+    set vSheet= ActiveDocument.GetSheet(s)
+       Objects = vSheet.GetSheetObjects
+       For i = lBound(Objects) To uBound(Objects)
+              set vObject = Objects(i)
+              set vObjectProp = vObject.GetProperties
+              vOK = 0
+              
+              if vOK=0 AND vObject.GetObjectType = 5 then
+                 vObjectProp.Frame.AllowMoveSize = true
+              vObjectProp.Frame.AllowCopyClone = true
+
+                 vOK = 1
+              end if
+'chart object...
+              if vOK=0 AND ((vObject.GetObjectType >=10 AND vObject.GetObjectType <=16) OR (vObject.GetObjectType >=20 AND vObject.GetObjectType <=22)) then
+                 vObjectProp.GraphLayout.Frame.AllowMoveSize = true
+                  vObjectProp.GraphLayout.Frame.AllowCopyClone = true
+                 vOK = 1
+                 
+                end if
+                
+                if vOK=0 AND ((vObject.GetObjectType >=1 AND vObject.GetObjectType <=4) OR (vObject.GetObjectType >=6 AND vObject.GetObjectType <=9)  OR (vObject.GetObjectType >=17 AND vObject.GetObjectType <=19)) then
+                  vObjectProp.Layout.Frame.AllowMoveSize = true
+                   vObjectProp.Layout.Frame.AllowCopyClone = true
+
+                 vOK = 1
+                 
+                end if
+
+
+              
+           vObject.SetProperties vObjectProp
+              
+       Next
+next
+end sub 
+
+
+SUB Clientbrief_qv
+END SUB
+
+SUB Tradedetails
+END SUB
+
+SUB Client360
+END SUB
+
+SUB Clientbrief
+END SUB
+
+SUB Clientmarketer
+END SUB
+
+SUB Tradesearch
+END SUB
+
+'****This sub will assign value to a variable 15 times so that back button memory would be consumed.
+Private function Back_Solution
+set v = ActiveDocument.Variables("vBack_Solution")
+for v1=0 to 20
+v.SetContent v1,true
+next
+End function
+
+sub prod360
+'MACRO FOR PROD 360 INTEGRATION FOR DIRECT LINK 
+'ex. qvp://......qvw?MACRO=prod360
+'ED 11/16/2011
+
+ActiveDocument.Sheets("Production 360").Activate
+end sub
+'*****Export top 1000 rows to excel(Trade details) ********vHidePCs
+
+SUB Excel5Days
+set obj = ActiveDocument.GetSheetObject( "CH60" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelDaily
+set obj = ActiveDocument.GetSheetObject( "CH61" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelMTD
+set obj = ActiveDocument.GetSheetObject( "CH62" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelQTD
+set obj = ActiveDocument.GetSheetObject( "CH63" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelYTD
+set obj = ActiveDocument.GetSheetObject( "CH64" )
+Call ExcelN(obj) 
+End Sub
+
+
+
+Private function ExcelN(obj)
+
+
+
+set vTotColCount=ActiveDocument.Fields("_vPTradeCol").GetSelectedValues
+'msgbox(vTotColCount.Count)
+
+
+
+set v = ActiveDocument.Variables("vHidePCs")
+v.SetContent "2",true
+w = obj.GetColumnCount
+
+if obj.GetRowCount>1000 then
+		h=1001 
+		else h=obj.GetRowCount
+		end if
+Set objExcel = CreateObject("Excel.Application")
+objExcel.Workbooks.Add
+objExcel.Worksheets(1).select()
+objExcel.Visible = True
+
+set CellMatrix = obj.GetCells2(0,0,w,h)
+
+column = 1
+
+
+for cc=0 to vTotColCount.Count-1
+       objExcel.Cells(1,column).Value = CellMatrix(0)(cc).Text
+       objExcel.Cells(1,column).EntireRow.Font.Bold = True
+       column = column +1
+next
+
+c = 1
+r =2
+isError = false
+on error resume next
+for RowIter=1 to h-1   
+    for ColIter=0 to vTotColCount.Count-1       
+       objExcel.Cells(r,c).Value =  CellMatrix(RowIter)(ColIter).Text
+        'msgbox(CellMatrix(RowIter)(ColIter).Text)
+        c = c +1
+        if err.number <> 0 then
+        	msgBox("Export to excel was interrupted.  Please try again or contact Compass support for further assistance.")
+        	isError = true
+        	exit For
+        end if
+    next
+    r = r+1
+       c = 1
+   if isError then Exit For
+next
+v.SetContent "1",true
+END function
+
+'Private function ExcelN(obj)
+'
+'set vTotColCount=ActiveDocument.Fields("_vPTradeCol").GetSelectedValues
+'msgbox(vTotColCount.Count-1)
+'
+'
+'set v = ActiveDocument.Variables("vHidePCs")
+'v.SetContent "2",true
+'w = obj.GetColumnCount
+'
+'if obj.GetRowCount>1000 then
+'		h=1001 
+'		else h=obj.GetRowCount
+'		end if
+'Set objExcel = CreateObject("Excel.Application")
+'objExcel.Workbooks.Add
+'objExcel.Worksheets(1).select()
+'objExcel.Visible = True
+'
+'set CellMatrix = obj.GetCells2(0,0,w,h)
+'
+'column = 1
+'for cc=0 to vTotColCount.Count-1
+'       objExcel.Cells(1,column).Value = CellMatrix(0)(cc).Text
+'       objExcel.Cells(1,column).EntireRow.Font.Bold = True
+'       column = column +1
+'next
+'
+'c = 1
+'r =2
+'TotalCV = 0
+'isError = false
+'on error resume next
+'for RowIter=1 to h-1   
+'    for ColIter=0 to vTotColCount.Count-1          
+'       objExcel.Cells(r,c).Value =  CellMatrix(RowIter)(ColIter).Text
+'        'msgbox(CellMatrix(RowIter)(ColIter).Text)
+'        c = c +1
+'        if err.number <> 0 then
+'        	msgBox("Export to excel was interrupted.  Please try again or contact Compass support for further assistance.")
+'        	isError = true
+'        	exit For
+'        end if
+'        if ColIter =10 then 
+'         TotalCV = TotalCV + CellMatrix(RowIter)(ColIter).Text
+'        end if
+'    next
+'    r = r+1
+'       c = 1
+'   if isError then Exit For
+'next
+'
+'if obj.GetRowCount < 1001 then 
+'   objExcel.Cells(obj.GetRowCount,1).Value ="Total"
+'   objExcel.Cells(obj.GetRowCount,11).Value = TotalCV
+'   objExcel.Cells(obj.GetRowCount,11).EntireRow.Font.Bold = True
+'else 
+'   objExcel.Cells(1002,1).Value ="Total"
+'   objExcel.Cells(1002,11).Value = TotalCV
+'   objExcel.Cells(1002,11).EntireRow.Font.Bold = True
+'
+'end if
+'
+'v.SetContent "1",true
+'END function
+
+
+
+
+Sub ClearBM
+	set VDefaultSelect=ActiveDocument.Fields("ListSelect").GetPossibleValues
+	ActiveDocument.Fields("vPBBOrder").SelectValues VDefaultSelect
+	ActiveDocument.Fields("vPBCOrder").SelectValues VDefaultSelect
+	ActiveDocument.Fields("vPBMOrder").SelectValues VDefaultSelect
+	ActiveDocument.Fields("_vPBBCol").SelectPossible
+	ActiveDocument.Fields("_vPBCCol").SelectPossible
+	ActiveDocument.Fields("_vPBMCol").SelectPossible
+	ActiveDocument.Fields("vPBBOrder").Clear
+	ActiveDocument.Fields("vPBCOrder").Clear
+	ActiveDocument.Fields("vPBMOrder").Clear
+	ActiveDocument.Fields("_vPTradeCol").SelectPossible
+	
+end sub
+
+
+sub QVBookmarkCleared
+end sub
+
+
+
+
+sub FixObjects
+for s = 0 to ActiveDocument.NoOfSheets - 1
+   
+   
+    set vSheet= ActiveDocument.GetSheet(s)
+       Objects = vSheet.GetSheetObjects
+       For i = lBound(Objects) To uBound(Objects)
+              set vObject = Objects(i)
+              set vObjectProp = vObject.GetProperties
+              vOK = 0
+              
+              if vOK=0 AND vObject.GetObjectType = 5 then
+                 vObjectProp.Frame.AllowMoveSize = false
+              vObjectProp.Frame.AllowCopyClone = False
+
+                 vOK = 1
+              end if
+'chart object...
+              if vOK=0 AND ((vObject.GetObjectType >=10 AND vObject.GetObjectType <=16) OR (vObject.GetObjectType >=20 AND vObject.GetObjectType <=22)) then
+                 vObjectProp.GraphLayout.Frame.AllowMoveSize = false
+                  vObjectProp.GraphLayout.Frame.AllowCopyClone = false
+                 vOK = 1
+                 
+                end if
+                
+                if vOK=0 AND ((vObject.GetObjectType >=1 AND vObject.GetObjectType <=4) OR (vObject.GetObjectType >=6 AND vObject.GetObjectType <=9)  OR (vObject.GetObjectType >=17 AND vObject.GetObjectType <=19)) then
+                  vObjectProp.Layout.Frame.AllowMoveSize = false
+                   vObjectProp.Layout.Frame.AllowCopyClone = false
+
+                 vOK = 1
+                 
+                end if
+
+
+              
+           vObject.SetProperties vObjectProp
+              
+       Next
+next
+end sub
+
+
+
+
+sub ReleaseObjects
+for s = 0 to ActiveDocument.NoOfSheets - 1
+   
+   
+    set vSheet= ActiveDocument.GetSheet(s)
+       Objects = vSheet.GetSheetObjects
+       For i = lBound(Objects) To uBound(Objects)
+              set vObject = Objects(i)
+              set vObjectProp = vObject.GetProperties
+              vOK = 0
+              
+              if vOK=0 AND vObject.GetObjectType = 5 then
+                 vObjectProp.Frame.AllowMoveSize = true
+              vObjectProp.Frame.AllowCopyClone = true
+
+                 vOK = 1
+              end if
+'chart object...
+              if vOK=0 AND ((vObject.GetObjectType >=10 AND vObject.GetObjectType <=16) OR (vObject.GetObjectType >=20 AND vObject.GetObjectType <=22)) then
+                 vObjectProp.GraphLayout.Frame.AllowMoveSize = true
+                  vObjectProp.GraphLayout.Frame.AllowCopyClone = true
+                 vOK = 1
+                 
+                end if
+                
+                if vOK=0 AND ((vObject.GetObjectType >=1 AND vObject.GetObjectType <=4) OR (vObject.GetObjectType >=6 AND vObject.GetObjectType <=9)  OR (vObject.GetObjectType >=17 AND vObject.GetObjectType <=19)) then
+                  vObjectProp.Layout.Frame.AllowMoveSize = true
+                   vObjectProp.Layout.Frame.AllowCopyClone = true
+
+                 vOK = 1
+                 
+                end if
+
+
+              
+           vObject.SetProperties vObjectProp
+              
+       Next
+next
+end sub 
+
+
+
+
+
+
+iViewName=""
+iEntitlementNbkId=""
+
+Sub EntitlementView
+
+  if ActiveDocument.Fields("%VIEW_NAME").GetSelectedValues.count > 0 then 
+     Set View=ActiveDocument.Fields("%VIEW_NAME").GetSelectedValues
+     Set Ent=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+
+     iViewName = View.Item(0).Text
+     iEntitlementNbkId = Ent.Item(0).Text
+     if View.Item(0).Text <> "GLOBAL_VIEW" then 
+       Call ENT_Apply ()
+     end if 
+   else
+     if iViewName <> "" and iEntitlementNbkId <> "" then
+       ActiveDocument.Fields("%VIEW_NAME").Select iViewName
+       ActiveDocument.Fields("%ENT_NBID").Select iEntitlementNbkId 
+     end if
+    end if 
+
+End Sub 
+
+
+
+
+
+	'****Filters will beapplied using this private function*****
+	
+Private Function ENT_Apply()
+
+	set Ent=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+	ActiveDocument.UnlockAll
+	
+	ActiveDocument.Fields("_vPBBCol").Lock
+	ActiveDocument.Fields("_vPBCCol").Lock
+	ActiveDocument.Fields("_vPBMCol").Lock
+	ActiveDocument.Fields("_vPTradeCol").Lock
+	
+	
+    ActiveDocument.Fields("%ENT_NBID").Lock
+	ActiveDocument.Fields("%VIEW_NAME").Lock
+	'ActiveDocument.Fields("%MGR_NBID").Unlock
+	'ActiveDocument.Fields("%MKTR_NBID").Unlock
+	ActiveDocument.ClearAll False
+	ActiveDocument.Fields("%ENT_NBID").Select Ent.item(0).Text
+	ActiveDocument.Fields("%ENT_NBID").Lock
+	set Key=ActiveDocument.Fields("%ENT_KEY").GetPossibleValues
+	for i=0 to Key.Count-1
+		ActiveDocument.Fields("%ENT_KEY").Select Key.Item(i).Text
+		Set Val=ActiveDocument.Fields("%ENT_VALUE").GetPossibleValues
+		ActiveDocument.Fields(Key.Item(i).Text).SelectValues Val
+		ActiveDocument.Fields(Key.Item(i).Text).Lock		
+		next
+	ActiveDocument.Fields("%ENT_VALUE").Clear
+	ActiveDocument.Fields("%ENT_KEY").Clear
+	ActiveDocument.Fields("%ENT_NBID").Unlock
+	ActiveDocument.Fields("%ENT_NBID").Select Ent.item(0).Text
+	
+	ActiveDocument.Fields("%VIEW_NAME").Unlock
+	ActiveDocument.Fields("%MGR_NBID").Lock
+	ActiveDocument.Fields("%MKTR_NBID").Lock
+	
+	ActiveDocument.Fields("_vPBBCol").Unlock
+	ActiveDocument.Fields("_vPBCCol").Unlock
+	ActiveDocument.Fields("_vPBMCol").Unlock
+	ActiveDocument.Fields("_vPTradeCol").Unlock
+	
+	
+	Call Back_Solution
+End Function
+
+sub QVActiveSession
+End Sub 
+
+Sub MarketerSelect  
+
+  if ActiveDocument.Fields("Marketer").GetSelectedValues.count = 0 then 
+
+'Set v2 = ActiveDocument.Variables("vCurrOBO")
+'obo = v2.GetContent.String
+' ActiveDocument.Fields("%MKTR_NBID").Select  chr(34) & obo &chr(34)
+ 'Set Ent=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+ 
+ 
+      if ActiveDocument.Fields("%MGR_NBID").GetSelectedValues.count > 0 then
+               Set Mgr=ActiveDocument.Fields("%MGR_NBID").GetSelectedValues
+               ActiveDocument.Fields("%MKTR_NBID").Select Mgr.Item(0).Text
+                 if  ActiveDocument.Fields("%MKTR_NBID").GetSelectedValues.count > 0 then
+                   ActiveDocument.Fields("Marketer").SelectPossible
+                 end if
+               ActiveDocument.Fields("%MKTR_NBID").clear
+            elseif ActiveDocument.Fields("%ENT_NBID").GetSelectedValues.count > 0 then
+              Set Mgr=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+              ActiveDocument.Fields("%MKTR_NBID").Select Mgr.Item(0).Text
+                  if  ActiveDocument.Fields("%MKTR_NBID").GetSelectedValues.count > 0 then
+                   ActiveDocument.Fields("Marketer").SelectPossible
+                 end if
+               ActiveDocument.Fields("%MKTR_NBID").clear
+      end if
+      
+            
+
+  end if
+
+end sub
+
+'Sub MarketerUNSelect  
+'
+'            if ActiveDocument.Fields("%ENT_NBID").GetSelectedValues.count > 0 then
+'
+'              ActiveDocument.Fields("Marketer").clear
+'
+'            end if
+'
+'   if ActiveDocument.Fields("Marketer").GetSelectedValues.count > 0 then 
+'   'msgbox("1")
+'   
+'      if ActiveDocument.Fields("%MGR_NBID").GetSelectedValues.count > 0 then
+'      'msgbox("2")
+'          if ActiveDocument.Fields("Marketer").GetSelectedValues.count = 1 then
+'         ' msgbox("3")
+'               Set MktrID=ActiveDocument.Fields("%MKTR_NBID").GetPossibleValues
+'               Set MgrID=ActiveDocument.Fields("%MGR_NBID").GetSelectedValues
+'               Set EntID=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+'               'msgbox(MgrID.Item(0).Text)
+'               'msgbox(MktrID.Item(0).Text)
+'             
+'                 if MgrID.Item(0).Text=MktrID.Item(0).Text then
+'                 
+'                 ActiveDocument.Fields("Marketer").clear
+'               
+'                 end if
+'                 
+'                  
+'               
+'               
+'          
+'          end if
+'     
+'      
+'      end if
+'
+'   end if
+' 
+'end sub
+
+
+Sub LockDoc
+
+Set Mgr=ActiveDocument.Fields("%MgrKey").GetSelectedValues
+
+
+   if Mgr.Item(0).Text= "00002-73050-DUMMYNBK" then
+   
+    ActiveDocument.Fields("%MgrKey").Lock
+    Call Back_Solution
+   end if
+
+End Sub
+
+
+Sub BackButton
+
+Call Back_Solution
+
+
+End Sub
+
+
+'Private function ExcelN(obj)
+'set v = ActiveDocument.Variables("vHidePCs")
+'v.SetContent "2",true
+'w = obj.GetColumnCount
+'
+'if obj.GetRowCount>1000 then
+'		h=1001 
+'		else h=obj.GetRowCount
+'		end if
+'Set objExcel = CreateObject("Excel.Application")
+'objExcel.Workbooks.Add
+'objExcel.Worksheets(1).select()
+'objExcel.Visible = True
+'
+'set CellMatrix = obj.GetCells2(0,0,w,h)
+'
+'column = 1
+'for cc=0 to 10
+'       objExcel.Cells(1,column).Value = CellMatrix(0)(cc).Text
+'       objExcel.Cells(1,column).EntireRow.Font.Bold = True
+'       column = column +1
+'next
+'
+'c = 1
+'r =2
+'TotalCV = 0
+'isError = false
+'on error resume next
+'for RowIter=1 to h-1   
+'    for ColIter=0 to 10          
+'       objExcel.Cells(r,c).Value =  CellMatrix(RowIter)(ColIter).Text
+'        'msgbox(CellMatrix(RowIter)(ColIter).Text)
+'        c = c +1
+'        if err.number <> 0 then
+'        	msgBox("Export to excel was interrupted.  Please try again or contact Compass support for further assistance.")
+'        	isError = true
+'        	exit For
+'        end if
+'        if ColIter =10 then 
+'         TotalCV = TotalCV + CellMatrix(RowIter)(ColIter).Text
+'        end if
+'    next
+'    r = r+1
+'       c = 1
+'   if isError then Exit For
+'next
+'
+'if obj.GetRowCount < 1001 then 
+'   objExcel.Cells(obj.GetRowCount,1).Value ="Total"
+'   objExcel.Cells(obj.GetRowCount,11).Value = TotalCV
+'   objExcel.Cells(obj.GetRowCount,11).EntireRow.Font.Bold = True
+'else 
+'   objExcel.Cells(1002,1).Value ="Total"
+'   objExcel.Cells(1002,11).Value = TotalCV
+'   objExcel.Cells(1002,11).EntireRow.Font.Bold = True
+'
+'end if
+'
+'v.SetContent "1",true
+'END function
+
+
+sub MarketerSegmentation
+
+ActiveDocument.Fields("Marketer").Lock
+
+
+'selects %NODE_ID to get Marketer Segmentation
+set V1= ActiveDocument.Variables("ssNodeID")
+	XValue = v1.GetContent.String
+	ActiveDocument.Fields("%NODE_ID").Select XValue
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+set SegCheck = ActiveDocument.Variables ("ssPossibleSegmentation")
+	XCheck = SegCheck.GetContent.String
+	
+	
+if XCheck > "0" then
+'selects segmentation
+set V1= ActiveDocument.Variables("ssNodeID_Segmentation")
+	XValue = v1.GetContent.String
+	ActiveDocument.Fields("Master Segmentation").Select XValue
+
+end if
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'If No segment is selected do the following:
+
+
+
+set SegSelectCheck = ActiveDocument.Variables ("ssSelectedSegmentationCount")
+	XSegSelectCheck = SegSelectCheck.GetContent.String
+
+
+'if XSegSelectCheck = 0 then
+'set Region = ActiveDocument.Variables ("ssRegion")
+'	VRegion = Region.GetContent.String
+'	
+'	if VRegion = "AMRS" then 
+'	ActiveDocument.Fields("Master Segmentation").Select "SRM-Americas"
+'	else if VRegion = "EMEA" then 
+'	ActiveDocument.Fields("Master Segmentation").Select "FICC-EMEA"	
+'    else if VRegion = "APAC" then 
+'	ActiveDocument.Fields("Master Segmentation").Select "FICC-Asia Pacific"	
+'		end if			
+'		end if
+'		end if
+'
+'end if
+
+
+if XSegSelectCheck = 0 then
+set Region = ActiveDocument.Variables ("ssRegion")
+	VRegion = Region.GetContent.String
+set SubRegion = ActiveDocument.Variables ("ssSubRegion")
+	vSubRegion = SubRegion.GetContent.String
+	
+	'msgbox (vSubRegion)
+	
+	if VRegion = "AMRS" then 
+	   ActiveDocument.Fields("Master Segmentation").Select "SRM-Americas"
+	elseif VRegion = "EMEA" then 
+	   ActiveDocument.Fields("Master Segmentation").Select "SRM-EMEA"	
+    elseif VRegion = "APAC" AND vSubRegion = "Japan" then 
+	   ActiveDocument.Fields("Master Segmentation").Select "SRM-Japan"
+	elseif VRegion = "APAC" AND vSubRegion = "Asia" then 
+	  'msgbox("test") 
+	  ActiveDocument.Fields("Master Segmentation").Select "SRM-Asia Pacific"
+	  'ActiveDocument.Fields("[MASTER Country]").Select "Japan"
+	  'ActiveDocument.Fields("[MASTER Country]").SelectExcluded 
+	  'ActiveDocument.Fields("[MASTER Country]").SelectPossible
+	end if			
+	
+
+end if
+
+
+
+
+'set ssSelectedMGRNBIDCountA = ActiveDocument.Variables ("ssSelectedMGRNBIDCount")
+'	VssSelectedMGRNBIDCount = ssSelectedMGRNBIDCountA.GetContent.String
+'	
+'	if VssSelectedMGRNBIDCount = 0 then
+'	
+'set ssLastMGRNBIDA = ActiveDocument.Variables ("ssLastMGRNBID")
+'	VssLastMGRNBID = ssLastMGRNBIDA.GetContent.String
+'
+'	
+'	ActiveDocument.Fields("%MGR_NBID").Select VssLastMGRNBID
+'	
+'	
+'	end if
+
+
+if VRegion = "APAC"  then 
+	  'msgbox("test") 
+	  ActiveDocument.Fields("[Functional Sub Region]").SelectPossible
+end if
+
+
+end sub
+
+
+'****This sub will assign value to a variable 15 times so that back button memory would be consumed.
+Private function Back_Solution
+set v = ActiveDocument.Variables("vBack_Solution")
+for v1=0 to 15
+v.SetContent v1,true
+next
+End function
+
+
+
+
+'********Create Bookamarks automatically**********
+
+'Sub Writexml
+'End Sub
+'
+'Sub CreateBM
+'
+'Set v1 = ActiveDocument.Variables("vCurrUser")
+'Set v2 = ActiveDocument.Variables("vCurrOBO")
+'user = v1.GetContent.String
+'obo = v2.GetContent.String
+'preval = user & "_" & obo & "_Preferences"
+'
+'if obo = "-" then
+'    ActiveDocument.RemoveUserBookmark preval
+'else
+'	ActiveDocument.RemoveUserBookmark preval
+'    ActiveDocument.CreateUserBookmark preval
+'    'ActiveDocument.CreateDocBookmark false, preval
+'  end if
+'End Sub
+'
+'Sub LoadBM
+'
+'Set v1 = ActiveDocument.Variables("vCurrUser")
+'Set v2 = ActiveDocument.Variables("vCurrOBO")
+'user = v1.GetContent.String
+'obo = v2.GetContent.String
+'preval = user & "_" & obo & "_Preferences"
+'
+''set bm = ActiveDocument.GetBookmark(preval)
+'	ActiveDocument.RecallUserBookmark preval
+'End Sub
+
+
+'Sub ClearBM
+'
+'Set v1 = ActiveDocument.Variables("vCurrUser")
+'Set v2 = ActiveDocument.Variables("vCurrOBO")
+'user = v1.GetContent.String
+'obo = v2.GetContent.String
+'preval = user & "_" & obo & "_Preferences"
+'if obo = "-" then
+'    ActiveDocument.RemoveUserBookmark preval
+'else
+'	ActiveDocument.RemoveUserBookmark preval
+'    ActiveDocument.Fields("%ENT_NBID").lock
+'    ActiveDocument.Fields("%VIEW_NAME").lock
+'    ActiveDocument.ClearAll false 
+'    ActiveDocument.Fields("%UnitPicker").Select "1"
+'    ActiveDocument.Fields("%FieldName_Expense").Select "Expense"
+'    ActiveDocument.Fields("TradeDetailTimePeriod").Select "5 Days"
+'    ActiveDocument.Fields("TimePeriod").Select "YTD"
+'    
+'    ActiveDocument.Fields("%ENT_NBID").Unlock
+'    ActiveDocument.Fields("%VIEW_NAME").Unlock
+'    Set Entnbid=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+'	if Entnbid.item(0).text <> "ZZZZZZZ" then
+'		Set Entrole=ActiveDocument.Fields("ROLE_NAME").GetPossibleValues
+'		if Entrole.item(0).Text="Sales Rep" then
+'		ActiveDocument.Fields("%VIEW_NAME").Select "My View"
+'		else ActiveDocument.Fields("%VIEW_NAME").Select "My Team"
+'		Call ENT_Apply (View)
+'		end if
+'	end if	
+'    
+'    'ActiveDocument.CreateDocBookmark false, preval
+''Call EntitlementView
+'end if
+'End Sub
+'/////Books marks creation script finished////
+
+'*****Export top 1000 rows to excel(Trade details) ********vHidePCs
+
+SUB Excel5Days
+set obj = ActiveDocument.GetSheetObject( "CH213" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelDaily
+set obj = ActiveDocument.GetSheetObject( "CH212" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelMTD
+set obj = ActiveDocument.GetSheetObject( "CH211" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelQTD
+set obj = ActiveDocument.GetSheetObject( "CH210" )
+Call ExcelN(obj) 
+End Sub
+
+SUB ExcelYTD
+set obj = ActiveDocument.GetSheetObject( "CH201" )
+Call ExcelN(obj) 
+End Sub
+
+
+Private function ExcelN(obj)
+set v = ActiveDocument.Variables("vHidePCs")
+v.SetContent "2",true
+w = obj.GetColumnCount
+
+if obj.GetRowCount>1000 then
+		h=1001 
+		else h=obj.GetRowCount
+		end if
+Set objExcel = CreateObject("Excel.Application")
+objExcel.Workbooks.Add
+objExcel.Worksheets(1).select()
+objExcel.Visible = True
+
+set CellMatrix = obj.GetCells2(0,0,w,h)
+
+column = 1
+for cc=0 to 8
+       objExcel.Cells(1,column).Value = CellMatrix(0)(cc).Text
+       objExcel.Cells(1,column).EntireRow.Font.Bold = True
+       column = column +1
+next
+
+c = 1
+r =2
+isError = false
+on error resume next
+for RowIter=1 to h-1   
+    for ColIter=0 to 8            
+       objExcel.Cells(r,c).Value =  CellMatrix(RowIter)(ColIter).Text
+        'msgbox(CellMatrix(RowIter)(ColIter).Text)
+        c = c +1
+        if err.number <> 0 then
+        	msgBox("Export to excel was interrupted.  Please try again or contact Compass support for further assistance.")
+        	isError = true
+        	exit For
+        end if
+    next
+    r = r+1
+       c = 1
+   if isError then Exit For
+next
+v.SetContent "1",true
+END function
+
+
+'sub DefaultSegmentation
+'
+'
+''SELECT SEGMENTATION
+'set fld2=ActiveDocument.GetField("%MGR_NBID")
+'   if fld2.GetValueCount(1) ="1" then
+'   
+'   ActiveDocument.Fields("%DefaultSegmentation").SelectPossible
+'	
+'	
+'	set segfield=Activedocument.Fields("%DefaultSegmentation")
+'	vsegfield = segfield.GetContent.String
+'	
+'	ActiveDocument.Fields("Master Segmentation").Select vsegfield
+' end if
+ 
+
+
+
+
+'end sub
+
+SUB MGR_NBID_SELECT
+
+
+set fld=ActiveDocument.GetField("Manager")
+   if fld.GetValueCount(1) ="1" then
+   
+   ActiveDocument.Fields("%MGR_NBID").SelectPossible
+
+set mgrnbid=ActiveDocument.Variables("ssMGR_NBID")
+	vmgrnbid = mgrnbid.GetContent.String
+	ActiveDocument.Fields("%PrintMGR_NBID").Select vmgrnbid	
+	
+'SAVE LAST MGRNBID SELECTED TO RESELECT
+'set IB = ActiveDocument.GetSheetObject("ssLastMGRNBID")
+'IB.SetVariableContent 0,vmgrnbid,true
+
+
+
+
+	
+   end if
+
+
+ActiveDocument.Fields("Master Segmentation").Clear
+ActiveDocument.Fields("Marketer").Clear
+
+
+
+
+
+
+   
+'call DefaultSegmentation   
+
+END SUB
+
+sub Export
+
+set val=ActiveDocument.Fields("%PrintMarketer").GetPossibleValues 
+
+for i=0 to val.Count-1
+
+     Xvalue = val.Item(i).Text
+     'msgbox(i)
+     ActiveDocument.Fields("Master Segmentation").Clear
+     ActiveDocument.Fields("Marketer").Unlock
+     ActiveDocument.Fields("Marketer").Select XValue
+     
+     call MarketerSegmentation
+     
+
+     call ExportToExcel
+
+next
+
+end sub
+ 
+
+
+sub ExportToExcel 
+
+	 
+	'variable to get top 10 clients showing for print out
+   set v = ActiveDocument.Variables("ssPrint")
+	v.SetContent "1",true
+	      
+      
+   
+     Dim aryExport(12,3)
+     
+     
+
+'Cross  Product
+aryExport(0,0) = "CH233"
+aryExport(0,1) = "Sheet1"
+aryExport(0,2) = "A10"				
+aryExport(0,3) = "data"
+
+
+'Segmentation
+aryExport(1,0) = "CH239"
+aryExport(1,1) = "Sheet1"
+aryExport(1,2) = "A4"				
+aryExport(1,3) = "data"
+
+'Rank
+aryExport(2,0) = "CH235"
+aryExport(2,1) = "Sheet1"
+aryExport(2,2) = "A16"				
+aryExport(2,3) = "data"
+
+'Cross Product Chart
+aryExport(3,0) = "CH271"
+aryExport(3,1) = "Sheet1"
+aryExport(3,2) = "L9"				
+aryExport(3,3) = "image"
+
+
+'Segmentation Chart
+aryExport(4,0) = "CH257"
+aryExport(4,1) = "Sheet1"
+aryExport(4,2) = "L3"				
+aryExport(4,3) = "image"
+
+
+'Expense
+aryExport(5,0) = "CH236"
+aryExport(5,1) = "Sheet1"
+aryExport(5,2) = "I16"				
+aryExport(5,3) = "data"
+
+'TouchPoint
+aryExport(6,0) = "CH240"
+aryExport(6,1) = "Sheet1"
+aryExport(6,2) = "L16"				
+aryExport(6,3) = "data"
+
+
+'PC Comparison
+aryExport(7,0) = "CH277"
+aryExport(7,1) = "Sheet1"
+aryExport(7,2) = "A22"				
+aryExport(7,3) = "image"
+
+
+'Expense Comparison Graph
+aryExport(8,0) = "CH278"
+aryExport(8,1) = "Sheet1"
+aryExport(8,2) = "E22"				
+aryExport(8,3) = "image"
+
+
+'Product Breakdown
+aryExport(9,0) = "CH245"
+aryExport(9,1) = "Sheet1"
+aryExport(9,2) = "L23"				
+aryExport(9,3) = "data"
+
+
+'Top 10 Clients
+aryExport(10,0) = "CH276"
+aryExport(10,1) = "Sheet1"
+aryExport(10,2) = "A36"				
+aryExport(10,3) = "data"
+
+
+'TouchPoint Chart
+aryExport(11,0) = "CH279"
+aryExport(11,1) = "Sheet1"
+aryExport(11,2) = "A50"				
+aryExport(11,3) = "image"
+
+
+
+'PCS Line Graph
+aryExport(12,0) = "CH280"
+aryExport(12,1) = "Sheet1"
+aryExport(12,2) = "H50"				
+aryExport(12,3) = "image"
+
+
+'aryExport(13,0) = "TX802"
+'aryExport(13,1) = "Sheet1"
+'aryExport(13,2) = "O1"				
+'aryExport(13,3) = "image"
+
+
+
+Dim objExcelWorkbook 'as Excel.Workbook  CS59
+
+
+'Set objExcelApp = CreateObject("Excel.Application")
+
+
+Set objExcelWorkbook = copyObjectsToExcelSheet(ActiveDocument, aryExport)
+
+
+
+      set v = ActiveDocument.Variables("ssPrint")
+v.SetContent "0",true
+
+
+end sub
+
+'// ****************************************************************
+Private Function copyObjectsToExcelSheet(qvDoc, aryExportDefinition) 'as Excel.Workbook
+
+
+
+
+
+
+Dim i 'as Integer
+Dim objExcelApp 'as Excel.Application
+Dim objExcelDoc 'as Excel.Workbook
+
+
+
+Set objExcelApp = CreateObject("Excel.Application")
+
+
+   
+objExcelApp.Visible = True 'false if you want to hide Excel
+objExcelApp.DisplayAlerts = false
+
+isError = false			'Handling the exception
+on error resume next
+  
+
+
+Set objExcelDoc = objExcelApp.Workbooks.Add
+
+Dim strSourceObject
+
+Dim qvObjectId 'as String 
+Dim sheetName
+Dim sheetRange
+Dim pasteMode
+Dim objSource
+Dim objCurrentSheet
+Dim objExcelSheet
+
+
+''''''''''Initialize Sheet Settings''''''''''''''''''''''''''''''''
+objExcelApp.ActiveSheet.Cells.Select
+    With objExcelApp.Selection.Font
+        .Name = "Arial"
+        .Size = 10
+	end With
+
+
+
+
+objExcelApp.ActiveSheet.Cells.Select
+objExcelApp.Selection.RowHeight = "12.75"
+
+
+objExcelApp.Range("A1").Select 
+
+''''''''''Initialize Sheet Settings End''''''''''''''''''''''''''
+
+
+
+for i = 0 to UBOUND(aryExportDefinition)
+
+	'// Get the properties of the exportDefinition array
+	qvObjectId = aryExportDefinition(i,0)
+	sheetName = aryExportDefinition(i,1)
+	sheetRange = aryExportDefinition(i,2)
+	pasteMode = aryExportDefinition(i,3)
+  
+           
+	Set objExcelSheet = Excel_GetSheetByName(objExcelDoc, sheetName)
+	if (objExcelSheet is nothing) then
+		Set objExcelSheet = Excel_AddSheet(objExcelApp, sheetName)
+		if (objExcelSheet is nothing) then
+			msgbox("No sheet could be created, this should not occur!!!")
+		end if
+	end if
+             
+      
+    objExcelSheet.Select            
+
+	set objSource = qvDoc.GetSheetObject(qvObjectId)
+	Call objSource.GetSheet().Activate()
+	'objSource.Maximize
+	qvDoc.GetApplication.WaitForIdle
+			
+				
+	if (not objSource is nothing) then
+	
+		if (pasteMode = "image") then
+			Call objSource.CopyBitmapToClipboard()
+		elseif(pasteMode = "text") then
+			Call objSource.CopyTextToClipboard()
+		 else
+			Call objSource.CopyTableToClipboard(true) '// default & fallback
+		end if
+		
+		Set objCurrentSheet = objExcelDoc.Sheets(sheetName)
+		objExcelDoc.Sheets(sheetName).Range(sheetRange).Select
+objExcelDoc.Sheets(sheetName).PasteSpecial(2)
+
+		if (pasteMode <> "image") then
+		objExcelDoc.Sheets(sheetName).Paste
+		else
+		objExcelDoc.Sheets(sheetName).PasteSpecial(1)
+		end if
+		
+		if (pasteMode <> "image") then
+		With objExcelApp.Selection
+            .WrapText = False
+            .ShrinkToFit = False
+		End With                     
+		end if        
+		
+		'objCurrentSheet.Range("A1").Select    
+	end if
+
+'vTimePeriod               
+               
+next
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''FORMAT SHEET'''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+''''MACRO MODIFICATIONS
+objExcelApp.ActiveSheet.Columns("A").ColumnWidth = 40
+objExcelApp.ActiveSheet.Range("A16:G16").Select
+objExcelApp.Selection.WrapText=True
+objExcelApp.ActiveSheet.Columns("I").ColumnWidth = 10
+objExcelApp.ActiveSheet.Columns("L").ColumnWidth = 12
+objExcelApp.ActiveSheet.Columns("K").ColumnWidth = 12
+'objExcelApp.ActiveSheet.Cells(17,1).EntireRow.Delete
+'objExcelApp.ActiveSheet.Cells(17,1).EntireRow.Delete
+'objExcelApp.ActiveSheet.Range("A26:J26").Select
+'objExcelApp.Selection.Interior.Color = 4138255
+'objExcelApp.ActiveSheet.Range("A19:G19").Select
+'objExcelApp.Selection.Interior.Color = 4138255
+'objExcelApp.Selection.WrapText=True
+'objExcelApp.ActiveSheet.Range("J19:K19").Select
+'objExcelApp.Selection.Interior.Color = 4138255
+'objExcelApp.ActiveSheet.Range("A10:F10").Select
+'objExcelApp.Selection.Interior.Color = 4138255
+'objExcelApp.ActiveSheet.Range("H10:K10").Select
+'objExcelApp.Selection.Interior.Color = 4138255
+'objExcelApp.ActiveSheet.Range("A4:K4").Select
+'objExcelApp.Selection.Interior.Color = 4138255
+'objExcelApp.ActiveSheet.Columns("B:K").ColumnWidth = 11
+'objExcelApp.ActiveSheet.Columns("A:K").NumberFormat = "#,##0"
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''END FORMAT SHEET'''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+
+
+
+'Format Headers of charts
+
+set ssPCSummaryChartTitleA= ActiveDocument.Variables("ssPCSummaryChartTitle")
+	XssPCSummaryChartTitle = ssPCSummaryChartTitleA.GetContent.String
+	objExcelApp.Range("A9").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssPCSummaryChartTitle
+			    
+			    
+set ssPriorityTitleA= ActiveDocument.Variables("ssPriorityTitle")
+	XssPriorityTitle = ssPriorityTitleA.GetContent.String
+	objExcelApp.Range("A3").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssPriorityTitle			    
+			    
+
+set ssRankingTitleA= ActiveDocument.Variables("ssRankingTitle")
+	XssRankingTitle = ssRankingTitleA.GetContent.String
+	objExcelApp.Range("A15").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssRankingTitle			    
+			    
+set ssExpenseTitleA= ActiveDocument.Variables("ssExpenseTitle")
+	XssExpenseTitle = ssExpenseTitleA.GetContent.String
+	objExcelApp.Range("I15").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssExpenseTitle				    
+			    
+
+set ssTouchPointTitleA= ActiveDocument.Variables("ssTouchPointTitle")
+	XssTouchPointTitle = ssTouchPointTitleA.GetContent.String
+	objExcelApp.Range("L15").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssTouchPointTitle	
+			    
+set ssProductTitleA= ActiveDocument.Variables("ssProductTitle")
+	XssProductTitle = ssProductTitleA.GetContent.String
+	objExcelApp.Range("L22").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssProductTitle				    			    
+			    
+set ssTopClientTitleA= ActiveDocument.Variables("ssTopClientTitle")
+	XssTopClientTitle = ssTopClientTitleA.GetContent.String
+	objExcelApp.Range("A35").Select
+			    objExcelApp.ActiveCell.FormulaR1C1 = XssTopClientTitle				    			    
+			   
+
+
+			    
+			    
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''			
+
+'Set Header Font/Background Color			    
+objExcelApp.ActiveSheet.Range("A3:K3,A9:K9,A15:G15,I15:J15,L15:O15,K22:P22,A35:P35").Select
+    With objExcelApp.Selection
+        .HorizontalAlignment = 7
+        .MergeCells = True
+        .Interior.Color = 6299648
+        .Font.ColorIndex = 2
+        .Font.Bold = True
+	End With
+	
+
+
+
+
+			    
+
+	
+
+'Put the Marketer Name in the Sheet Tab Name
+objExcelDoc.Sheets(1).Select
+
+set SheetName= ActiveDocument.Variables("ssPrintMarketer")
+	XSheetName = SheetName.GetContent.String
+
+	objExcelApp.Sheets("Sheet1").Name = XSheetName
+
+'MSGBOX(ERR.NUMBER)
+
+
+
+    
+  
+
+        	
+
+
+'Header Setup
+
+
+set ssLeftHeaderA= ActiveDocument.Variables("ssLeftHeader")
+	XssLeftHeader = ssLeftHeaderA.GetContent.String
+    objExcelApp.ActiveSheet.PageSetup.LeftHeader =  "&""-,Bold""&10"&XssLeftHeader
+
+set ssRightHeaderA= ActiveDocument.Variables("ssRightHeader")
+	XssRightHeader = ssRightHeaderA.GetContent.String    
+    objExcelApp.ActiveSheet.PageSetup.RightHeader =  "&""-,Bold""&10"&XssRightHeader
+
+
+
+    
+objExcelApp.ActiveSheet.PageSetup.CenterFooter =_
+		"&""Arial""&10&Kcc0033& " & "Confidential: For Internal Use Only"& vbLf &"&""Arial""&10&K000000& " & "Report generated on " &[Date] & " "&[Time]
+
+
+'Fill Sheet
+
+
+
+			    
+	
+Call Excel_DeleteBlankSheets(objExcelDoc)
+
+
+
+
+
+''Allignment
+''Allignment for Product Chart
+objExcelApp.ActiveSheet.Range("K23:K34").Delete
+''Allignment for Top Clients Chart
+objExcelApp.ActiveSheet.Range("B36:F46").Insert
+objExcelApp.ActiveSheet.Range("A35:P35").Insert
+objExcelApp.ActiveSheet.Range("A35:P35").Insert
+''Wrap Text for Top Clients
+objExcelApp.ActiveSheet.Range("A38:P38").Select
+objExcelApp.Selection.WrapText=True
+'Touch Point Chart
+objExcelApp.ActiveSheet.Range("L15:L20").Insert
+''Merge Cells '''''''''''''''''
+objExcelApp.ActiveSheet.Range("H15:I15,H16:I16,H17:I17,H18:I18,H19:I19,H20:I20,K15:K15:M15,K16:M16,K17:M17,K18:M18,K19:M19,K20:M20,A38:F38,A39:F39,A40:F40,A41:F41,A42:F42,A43:F43,A44:F44,A45:F45,A46:F46,A47:F47,A48:F48").Select
+    With objExcelApp.Selection
+        .MergeCells = True
+	End With
+	objExcelApp.ActiveSheet.Range("J22:K22,J23:K23,J24:K24,J25:K25,J26:K26,J27:K27,J28:K28,J29:K29,J30:K30,J31:K31,J32:K32,J33:K33,J34:K34").Select
+    With objExcelApp.Selection
+        .MergeCells = True
+	End With	
+''Copy Color to merged cells
+objExcelApp.ActiveSheet.Range("H16,K16").Select
+    With objExcelApp.Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 16706784
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+'Fill Sheet
+objExcelApp.ActiveSheet.Columns("B:P").ColumnWidth = 10.5
+
+
+
+''format borders
+
+
+objExcelApp.ActiveSheet.Range("A3:K7,A9:K13,A15:P20, K22:P34, A37:P48").Select
+    With objExcelApp.Selection.Borders(7)
+        .LineStyle = 1
+        .ColorIndex = -4105
+        .TintAndShade = 0
+        .Weight = 2
+    End With
+    With objExcelApp.Selection.Borders(8)
+        .LineStyle = 1
+        .ColorIndex = -4105
+        .TintAndShade = 0
+        .Weight = 2
+    End With
+    With objExcelApp.Selection.Borders(9)
+        .LineStyle = 1
+        .ColorIndex = -4105
+        .TintAndShade = 0
+        .Weight = 2
+    End With
+    With objExcelApp.Selection.Borders(10)
+        .LineStyle = 1
+        .ColorIndex = -4105
+        .TintAndShade = 0
+        .Weight = 2
+    End With
+    With objExcelApp.Selection.Borders(11)
+        .LineStyle = 1
+        .ColorIndex = -4105
+        .TintAndShade = 0
+        .Weight = 2
+    End With
+    With objExcelApp.Selection.Borders(12)
+        .LineStyle = 1
+        .ColorIndex = -4105
+        .TintAndShade = 0
+        .Weight = 2
+	End With
+
+
+
+'Clean Up Empty lines
+objExcelApp.ActiveSheet.Cells(8,1).EntireRow.Delete
+objExcelApp.ActiveSheet.Cells(13,1).EntireRow.Delete
+objExcelApp.ActiveSheet.Cells(34,1).EntireRow.Delete
+
+'' Row Height allignment
+objExcelApp.ActiveSheet.Range("4:4,9:9").Select
+objExcelApp.Selection.RowHeight = 24
+objExcelApp.ActiveSheet.Range("33:33,19:19,46:46").Select
+objExcelApp.Selection.RowHeight = 1
+objExcelApp.ActiveSheet.Range("21:21").Select
+objExcelApp.Selection.RowHeight = 28
+
+'Clean Up other Lines
+objExcelApp.ActiveSheet.Cells(47,1).EntireRow.Delete
+objExcelApp.ActiveSheet.Cells(1,1).EntireRow.Delete
+objExcelApp.ActiveSheet.Cells(1,1).EntireRow.Delete
+
+
+'Comma Seperate
+    objExcelApp.Range("B3:B5,D3:D5,G3:G5,I3:I5,B8:D10,G8:I10,B13:O16,L20:N30,P20:P30,H34:K43,N34:N43").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+
+
+'''MARGIN AND ZOOM ADJUST
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 33
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 18
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+objExcelApp.ActiveSheet.PageSetup.Zoom = 61
+	
+   	
+'' Row Height allignment
+objExcelApp.ActiveSheet.Range("12:12,33:33").Select
+objExcelApp.Selection.RowHeight = 50
+
+
+
+
+'// Return value
+Set copyObjectsToExcelSheet = objExcelDoc
+if err.number <> 0 then	'Exception handling
+        	msgBox("Download interuppted or Exception occured")
+        	isError = true
+else       	
+set PrintOut = ActiveDocument.Variables("vPrintOut")
+'  'if(PrintOut.GetContent.String="1") then
+'	'objExcelApp.ActiveWorkbook.PrintOut
+'	'end if
+        	end if
+
+
+ objExcelApp.Range("A1").Select    
+
+end function
+
+
+
+'// ________________________________________________________________
+
+
+
+'// ****************************************************************
+'// Internal function for getting the Excel sheet by sheetName
+'// ****************************************************************
+Private Function Excel_GetSheetByName(ByRef objExcelDoc, sheetName) 'as Excel.Sheet
+
+For Each ws In objExcelDoc.Worksheets
+	If (trim(ws.Name) = Excel_GetSafeSheetName(sheetName)) then
+		Set Excel_GetSheetByName = ws
+		exit function
+	End If
+Next
+
+'// default return value
+Set Excel_GetSheetByName = nothing
+                             
+End Function
+'// ________________________________________________________________
+
+
+Private Function Excel_GetSafeSheetName(sheetName)
+
+	'// can be max 31 characters long
+	retVal = trim(left(sheetName, 31))
+	
+	Excel_GetSafeSheetName = retVal
+End Function
+
+
+
+'// ****************************************************************
+'// Internal function for adding a new sheet
+'// ****************************************************************
+Private Function Excel_AddSheet(objExcelApplication, sheetName) ' as Excel.Sheet
+
+	'// add a sheet to the last position
+	objExcelApplication.Sheets.Add , objExcelApplication.Sheets(objExcelApplication.Sheets.Count)
+	
+	Dim objNewSheet
+	Set objNewSheet = objExcelApplication.Sheets(objExcelApplication.Sheets.Count)
+	objNewSheet.Name = left(sheetName,31)
+	
+	'// return the newly created sheet
+	Set Excel_AddSheet = objNewSheet
+
+End function
+'// ________________________________________________________________
+
+
+
+'// ****************************************************************
+'// Delete all empty sheets
+'// ****************************************************************
+Private Sub Excel_DeleteBlankSheets(ByRef objExcelDoc) 
+
+For Each ws In objExcelDoc.Worksheets
+	If (not HasOtherObjects(ws)) then
+		If objExcelDoc.Application.WorksheetFunction.CountA(ws.Cells) = 0 Then
+			On Error Resume Next
+			Call ws.Delete()
+		End If
+	End If
+Next 
+    
+End Sub 
+'// ________________________________________________________________
+
+
+
+
+'// ****************************************************************
+'// Helper function to determine if there are other objects placed
+'// on the sheet ...
+'// ****************************************************************
+Public Function HasOtherObjects(ByRef objSheet) 'As Boolean 
+    Dim c
+    If (objSheet.ChartObjects.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    If (objSheet.Pictures.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    If (objSheet.Shapes.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    
+    
+    HasOtherObjects = false
+End Function  
+
+
+
+sub DefaultSegmentation
+
+set fld=ActiveDocument.GetField("Manager")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	
+	
+ActiveDocument.Fields("Manager").Lock
+ActiveDocument.Fields("Manager").ClearAllButThis
+Set Val=ActiveDocument.Fields("DefaultSegmentation").GetPossibleValues
+ActiveDocument.Fields("[Master Segmentation]").SelectValues Val
+
+
+
+	end if
+
+end sub
+
+
+sub test
+
+set vmgid=ActiveDocument.Variables("vMGRSelect")
+	vmgid = vmgid.GetContent.String
+	
+	if vmgid=0 then
+	set fld=ActiveDocument.GetField("Manager")
+   if fld.GetValueCount(1) ="1" then
+   
+   ActiveDocument.Fields("%MGR_NBID").SelectPossible
+
+set mgrnbid=ActiveDocument.Variables("ssMGR_NBID")
+	vmgrnbid = mgrnbid.GetContent.String
+	ActiveDocument.Fields("%PrintMGR_NBID").Select vmgrnbid	
+	
+	
+   end if
+
+	
+	end if
+
+end sub
+
+
+
+sub ResetClearState
+
+ActiveDocument.ResetClearState
+
+end sub
+
+
+
+sub SetClearState
+
+ActiveDocument.SetClearState
+
+end sub
+
+
+sub LockMarketer
+
+ActiveDocument.Fields("Marketer").Lock
+
+end sub
+
+
+
+sub ManagerLocking
+
+'MACRO IS USED TO UNLOCK MANAGER FIELDS TO ALLOW SWITCH OF OBO 
+'WHEN THESE FIELDS ARE LOCKED, THE CLEAR BUTTON DOES NOT CLEAR OBO SELECTION
+
+set vOBOA=ActiveDocument.Variables("vOBO")
+	xvOBO = vOBOA.GetContent.String
+
+if xvOBO = 0 then	
+ActiveDocument.Fields("Manager").Lock
+ ActiveDocument.Fields("%MGR_NBID").Lock
+ 'ActiveDocument.Fields("%PrintMGR_NBID").Lock
+ ActiveDocument.Fields("Marketer").Lock
+ call SetClearState
+ 
+else 
+ActiveDocument.Fields("Manager").UnLock
+ ActiveDocument.Fields("%MGR_NBID").UnLock
+ 'ActiveDocument.Fields("%PrintMGR_NBID").UnLock
+  ActiveDocument.Fields("Marketer").UnLock
+ 
+ 
+ end if
+ 
+ 
+ 
+ end sub
+ 
+ 
+ 
+ SUB MGR_NBID_LOCK
+ 
+ ActiveDocument.Fields("Manager").SelectPossible
+ ActiveDocument.Fields("Manager").Lock
+ 'ActiveDocument.Fields("Marketer").Lock
+ call SetClearState
+ 
+ 
+ 
+ END SUB
+ 
+ 
+ sub UnlockMarketer
+
+
+ActiveDocument.Fields("%MGR_NBID").Lock
+
+ set lb = ActiveDocument.GetSheetObject("LB474")
+lb.Unlock
+
+
+
+
+
+ 
+ end sub
+ 
+ 
+ 
+ 
+ sub OnOpen
+ 
+  set ssIESetupA = ActiveDocument.Variables ("ssIESetup")
+	ssIESetupV = ssIESetupA.GetContent.String
+ 
+ if ssIESetupV = 1 then
+ ActiveDocument.UnlockAll
+ ActiveDocument.ClearAll True 
+ 
+ 
+ end if
+ 
+ 
+ End Sub
+ 
+
+ 
+ sub ReSelectMGRNBID
+ 
+ set ssLastMGRNBIDA = ActiveDocument.Variables ("ssLastMGRNBID")
+	VssLastMGRNBID = ssLastMGRNBIDA.GetContent.String
+
+	
+	ActiveDocument.Fields("%MGR_NBID").Select VssLastMGRNBID
+ 
+ End Sub
+ 
+ 
+ 
+ 
+ 
+ sub QVActiveSession
+End Sub 
+
+Sub MarketerLock
+
+Set Val=ActiveDocument.Fields("Marketer").GetPossibleValues
+
+ ActiveDocument.Fields("%MKTR_NBID").UnLock
+  ActiveDocument.Fields("%MKTR_NBID").Clear
+ActiveDocument.Fields("Marketer").SelectValues Val
+
+  
+
+  ActiveDocument.Fields("Marketer").Lock
+
+
+'selects %NODE_ID to get Marketer Segmentation
+set V1= ActiveDocument.Variables("ssNodeID")
+	XValue = v1.GetContent.String
+	ActiveDocument.Fields("%NODE_ID").Select XValue
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+set SegCheck = ActiveDocument.Variables ("ssPossibleSegmentation")
+	XCheck = SegCheck.GetContent.String
+	
+	
+if XCheck > "0" then
+'selects segmentation
+set V1= ActiveDocument.Variables("ssNodeID_Segmentation")
+	XValue = v1.GetContent.String
+	ActiveDocument.Fields("Master Segmentation").Select XValue
+
+end if
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'If No segment is selected do the following:
+
+
+
+set SegSelectCheck = ActiveDocument.Variables ("ssSelectedSegmentationCount")
+	XSegSelectCheck = SegSelectCheck.GetContent.String
+
+
+'if XSegSelectCheck = 0 then
+'set Region = ActiveDocument.Variables ("ssRegion")
+'	VRegion = Region.GetContent.String
+'	
+'	if VRegion = "AMRS" then 
+'	ActiveDocument.Fields("Master Segmentation").Select "SRM-Americas"
+'	else if VRegion = "EMEA" then 
+'	ActiveDocument.Fields("Master Segmentation").Select "FICC-EMEA"	
+'    else if VRegion = "APAC" then 
+'	ActiveDocument.Fields("Master Segmentation").Select "FICC-Asia Pacific"	
+'		end if			
+'		end if
+'		end if
+'
+'end if
+
+
+if XSegSelectCheck = 0 then
+set Region = ActiveDocument.Variables ("ssRegion")
+	VRegion = Region.GetContent.String
+set SubRegion = ActiveDocument.Variables ("ssSubRegion")
+	vSubRegion = SubRegion.GetContent.String
+	
+	'msgbox (vSubRegion)
+	
+	if VRegion = "AMRS" then 
+	   ActiveDocument.Fields("Master Segmentation").Select "SRM-Americas"
+	elseif VRegion = "EMEA" then 
+	   ActiveDocument.Fields("Master Segmentation").Select "SRM-EMEA"	
+    elseif VRegion = "APAC" AND vSubRegion = "Japan" then 
+	   ActiveDocument.Fields("Master Segmentation").Select "SRM-Japan"
+	elseif VRegion = "APAC" AND vSubRegion = "Asia" then 
+	  'msgbox("test") 
+	  ActiveDocument.Fields("Master Segmentation").Select "SRM-Asia Pacific"
+	  'ActiveDocument.Fields("[MASTER Country]").Select "Japan"
+	  'ActiveDocument.Fields("[MASTER Country]").SelectExcluded 
+	  'ActiveDocument.Fields("[MASTER Country]").SelectPossible
+	end if			
+	
+
+end if
+
+if VRegion = "APAC"  then 
+	  'msgbox("test") 
+	  ActiveDocument.Fields("[Functional Sub Region]").SelectPossible
+end if
+
+
+
+
+End Sub
+
+
+Sub Autozoom
+
+
+
+ActiveDocument.GetApplication.WaitForIdle
+ActiveDocument.ActiveSheet.FitZoomToWindow
+
+End Sub
+
+
+
+SUB Tradedetails
+END SUB
+
+sub prod360
+'MACRO FOR PROD 360 INTEGRATION FOR DIRECT LINK 
+'ex. qvp://......qvw?MACRO=prod360
+'ED 11/16/2011
+
+ActiveDocument.Sheets("Production 360").Activate
+
+
+
+
+
+end sub
+
+
+
+'****This sub will assign value to a variable 15 times so that back button memory would be consumed.
+Private function Back_Solution
+set v = ActiveDocument.Variables("vBack_Solution")
+for v1=0 to 15
+v.SetContent v1,true
+next
+End function
+
+SUB Touchpoints
+END SUB
+
+
+
+sub SelectPossibleMaster
+set fld=ActiveDocument.GetField("MASTER_ID")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	ActiveDocument.Fields("MASTER").SelectPossible
+		end if
+end sub
+
+
+
+sub SelectPossibleSubMaster
+set fld=ActiveDocument.GetField("SUB_MASTER_ID")
+
+'ONLY SELECT POSSIBLE WHEN ONLY ONE SUB_MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	ActiveDocument.Fields("SUB MASTER").SelectPossible
+		end if
+end sub
+
+
+sub SelectPossibleSuperMaster
+set fld=ActiveDocument.GetField("SUPER_MASTER_ID")
+
+'ONLY SELECT POSSIBLE WHEN ONLY ONE SUPER_MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	ActiveDocument.Fields("SUPER MASTER").SelectPossible
+		end if
+end sub
+
+
+
+'SUB Excel5Days
+'set obj = ActiveDocument.GetSheetObject( "CH213" )
+'w = obj.GetColumnCount
+'if obj.GetRowCount>1000 then
+'		h=1001 
+'		else h=obj.GetRowCount
+'		end if
+'Set objExcel = CreateObject("Excel.Application")
+'objExcel.Workbooks.Add
+'objExcel.Worksheets(1).select()
+'objExcel.Visible = True
+'
+'set CellMatrix = obj.GetCells2(0,0,w,h)
+'
+'column = 1
+'for cc=0 to 8
+'       objExcel.Cells(1,column).Value = CellMatrix(0)(cc).Text
+'       objExcel.Cells(1,column).EntireRow.Font.Bold = True
+'       column = column +1
+'next
+'
+'c = 1
+'r =2
+'for RowIter=1 to h-1   
+'    for ColIter=0 to 8            
+'       objExcel.Cells(r,c).Value =  CellMatrix(RowIter)(ColIter).Text
+'        'msgbox(CellMatrix(RowIter)(ColIter).Text)
+'        c = c +1
+'    next
+'    r = r+1
+'       c = 1
+'next
+'
+'END SUB
+
+Sub CreateBM
+
+Set v1 = ActiveDocument.Variables("vCurrUser")
+Set v2 = ActiveDocument.Variables("vCurrOBO")
+user = v1.GetContent.String
+obo = v2.GetContent.String
+preval = user & "_" & obo & "_Preferences"
+
+    ActiveDocument.RemoveUserBookmark preval
+    ActiveDocument.CreateUserBookmark preval
+    'ActiveDocument.CreateDocBookmark false, preval
+End Sub
+
+Sub LoadBM
+
+Set v1 = ActiveDocument.Variables("vCurrUser")
+Set v2 = ActiveDocument.Variables("vCurrOBO")
+user = v1.GetContent.String
+obo = v2.GetContent.String
+preval = user & "_" & obo & "_Preferences"
+
+'set bm = ActiveDocument.GetBookmark(preval)
+	ActiveDocument.RecallUserBookmark preval
+End Sub
+
+Sub ClearBM
+
+Set v1 = ActiveDocument.Variables("vCurrUser")
+Set v2 = ActiveDocument.Variables("vCurrOBO")
+user = v1.GetContent.String
+obo = v2.GetContent.String
+preval = user & "_" & obo & "_Preferences"
+
+    ActiveDocument.RemoveUserBookmark preval
+    'ActiveDocument.CreateDocBookmark false, preval
+End Sub
+
+
+Sub ClearMaster
+
+ActiveDocument.Fields("MASTER").Clear
+
+
+End Sub
+
+
+Sub ClearSubMaster
+
+ActiveDocument.Fields("SUB MASTER").Clear
+
+End Sub
+
+
+Sub ClearSuperMaster
+
+ActiveDocument.Fields("SUPER MASTER").Clear
+
+End Sub
+
+
+Sub ClearMasterID
+
+ActiveDocument.Fields("MASTER_ID").Clear
+
+
+End Sub
+
+
+Sub ClearSubMasterID
+
+ActiveDocument.Fields("SUB_MASTER_ID").Clear
+
+End Sub
+
+
+Sub ClearSuperMasterID
+
+ActiveDocument.Fields("SUPER_MASTER_ID").Clear
+
+End Sub
+
+
+Sub ClearAllClientLevels
+
+ActiveDocument.Fields("MASTER").Clear
+ActiveDocument.Fields("SUB MASTER").Clear
+ActiveDocument.Fields("SUPER MASTER").Clear
+
+End Sub
+
+
+'***************Export multiple objects to Excel. ************
+sub ExportToExcel
+  'msgbox ("export to excel test")
+  Set Ent=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+
+     
+    
+if Ent.count=0 then 
+       
+   
+
+	 set chart1 = ActiveDocument.GetSheetObject("CH267")
+	CellRect = ActiveDocument.GetApplication().GetEmptyRect()
+	CellRect.Height = chart1.GetRowCount
+	
+	
+	
+	
+	
+	
+
+     gr1 = "A" & CellRect.Height +10
+    
+     gr2 = "C" & CellRect.Height +10
+    
+     gr3 = "E" & CellRect.Height +10
+     
+      gr4 = "A" & CellRect.Height +9
+      gr5="F" & CellRect.Height +9
+      
+     
+      
+      
+      
+   
+   
+   
+    
+    
+    
+    Dim aryExport(33,3)
+
+aryExport(0,0) = "CH267"
+aryExport(0,1) = "Sheet1"
+aryExport(0,2) = "A8"				
+aryExport(0,3) = "data"
+
+set LB = ActiveDocument.GetSheetObject("LB574")
+boxvalues=LB.GetPossibleValues
+for i = lbound(boxvalues) to ubound(boxvalues)  
+    'msgbox(boxvalues(i))
+
+
+
+if boxvalues(i)="HORLICK, DOUGLAS" then
+
+
+aryExport(1,0) = "CH272" 	
+aryExport(1,1) = "Sheet1" 
+aryExport(1,2) = gr1
+aryExport(1,3) = "image"
+
+aryExport(2,0) = "CH285" 	
+aryExport(2,1) = "Sheet1" 
+aryExport(2,2) = gr2
+aryExport(2,3) = "image"
+
+else 
+
+aryExport(1,0) = "CH287" 	
+aryExport(1,1) = "Sheet1" 
+aryExport(1,2) = gr1
+aryExport(1,3) = "image"
+
+aryExport(2,0) = "CH288" 	
+aryExport(2,1) = "Sheet1" 
+aryExport(2,2) = gr2
+aryExport(2,3) = "image"
+
+
+
+end if
+
+next
+
+
+
+
+aryExport(3,0) = "CH284"
+aryExport(3,1) = "Sheet1"
+aryExport(3,2) =gr3				
+aryExport(3,3) = "image"
+
+
+'Client Production Column
+
+aryExport(4,0) = "TX930"
+aryExport(4,1) = "Sheet1"
+aryExport(4,2) = "A4"				
+aryExport(4,3) = "image"
+
+aryExport(5,0) = "TX923"
+aryExport(5,1) = "Sheet1"
+aryExport(5,2) = "A5"				
+aryExport(5,3) = "image"
+
+aryExport(6,0) = "TX949"
+aryExport(6,1) = "Sheet1"
+aryExport(6,2) =  "A6"				
+aryExport(6,3) = "image"
+
+aryExport(7,0) = "TX1114"
+aryExport(7,1) = "Sheet1"
+aryExport(7,2) =  "A7"				
+aryExport(7,3) = "image"
+
+
+'MTD Column
+
+aryExport(8,0) = "TX931"
+aryExport(8,1) = "Sheet1"
+aryExport(8,2) = "B4"				
+aryExport(8,3) = "image"
+
+aryExport(9,0) = "TX921"
+aryExport(9,1) = "Sheet1"
+aryExport(9,2) =  "B5"				
+aryExport(9,3) = "image"
+
+aryExport(10,0) = "TX922"
+aryExport(10,1) = "Sheet1"
+aryExport(10,2) =  "B6"				
+aryExport(10,3) = "image"
+
+
+aryExport(11,0) = "TX1115"
+aryExport(11,1) = "Sheet1"
+aryExport(11,2) = "B7"				
+aryExport(11,3) = "image"
+
+
+'YTD Column
+
+aryExport(12,0) = "TX932"
+aryExport(12,1) = "Sheet1"
+aryExport(12,2) =  "C4"				
+aryExport(12,3) = "image"
+
+aryExport(13,0) = "TX945"
+aryExport(13,1) = "Sheet1"
+aryExport(13,2) =  "C5"				
+aryExport(13,3) = "image"
+
+
+aryExport(14,0) = "TX948"
+aryExport(14,1) = "Sheet1"
+aryExport(14,2) = "C6"				
+aryExport(14,3) = "image"
+
+aryExport(15,0) = "TX1116"
+aryExport(15,1) = "Sheet1"
+aryExport(15,2) =  "C7"				
+aryExport(15,3) = "image"
+
+
+'% YTD
+
+aryExport(16,0) = "TX933"
+aryExport(16,1) = "Sheet1"
+aryExport(16,2) =  "G4"				
+aryExport(16,3) = "image"
+
+aryExport(17,0) = "TX946"
+aryExport(17,1) = "Sheet1"
+aryExport(17,2) = "G5"				
+aryExport(17,3) = "image"
+
+aryExport(18,0) = "TX947"
+aryExport(18,1) = "Sheet1"
+aryExport(18,2) =  "G6"				
+aryExport(18,3) = "image"
+
+aryExport(19,0) = "TX1117"
+aryExport(19,1) = "Sheet1"
+aryExport(19,2) =  "G7"				
+aryExport(19,3) = "image"
+
+'Previous YTD
+
+
+aryExport(20,0) = "TX1035"
+aryExport(20,1) = "Sheet1"
+aryExport(20,2) = "D4"				
+aryExport(20,3) = "image"
+
+aryExport(21,0) = "TX1040"
+aryExport(21,1) = "Sheet1"
+aryExport(21,2) =  "D5"				
+aryExport(21,3) = "image"
+
+aryExport(22,0) = "TX1041"
+aryExport(22,1) = "Sheet1"
+aryExport(22,2) =  "D6"				
+aryExport(22,3) = "image"
+
+
+aryExport(23,0) = "TX1118"
+aryExport(23,1) = "Sheet1"
+aryExport(23,2) = "D7"				
+aryExport(23,3) = "image"
+
+
+'% Previous YTD
+
+aryExport(24,0) = "TX1036"
+aryExport(24,1) = "Sheet1"
+aryExport(24,2) =  "E4"				
+aryExport(24,3) = "image"
+
+aryExport(25,0) = "TX1044"
+aryExport(25,1) = "Sheet1"
+aryExport(25,2) =  "E5"				
+aryExport(25,3) = "image"
+
+
+aryExport(26,0) = "TX1043"
+aryExport(26,1) = "Sheet1"
+aryExport(26,2) = "E6"				
+aryExport(26,3) = "image"
+
+aryExport(27,0) = "TX1119"
+aryExport(27,1) = "Sheet1"
+aryExport(27,2) =  "E7"				
+aryExport(27,3) = "image"
+
+'ccc
+
+aryExport(28,0) = "TX1037"
+aryExport(28,1) = "Sheet1"
+aryExport(28,2) =  "F4"				
+aryExport(28,3) = "image"
+
+
+aryExport(29,0) = "TX1042"
+aryExport(29,1) = "Sheet1"
+aryExport(29,2) =  "F5"				
+aryExport(29,3) = "image"
+
+aryExport(30,0) = "TX1045"
+aryExport(30,1) = "Sheet1"
+aryExport(30,2) =  "F6"				
+aryExport(30,3) = "image"
+
+aryExport(31,0) = "TX1120"
+aryExport(31,1) = "Sheet1"
+aryExport(31,2) =  "F7"				
+aryExport(31,3) = "image"
+
+
+
+
+
+aryExport(32,0) = "TX1055"
+aryExport(32,1) = "Sheet1"
+aryExport(32,2) =gr4			
+aryExport(32,3) = "image"
+
+aryExport(33,0) = "TX1121"
+aryExport(33,1) = "Sheet1"
+aryExport(33,2) =gr5				
+aryExport(33,3) = "image"
+
+
+
+
+
+
+Dim objExcelWorkbook 'as Excel.Workbook  CS59
+Set objExcelApp = CreateObject("Excel.Application")
+Set objExcelWorkbook = copyObjectsToExcelSheet(ActiveDocument, aryExport)
+
+end if 
+
+end sub
+
+
+
+
+
+'// ****************************************************************
+Private Function copyObjectsToExcelSheet(qvDoc, aryExportDefinition) 'as Excel.Workbook
+
+
+Dim i 'as Integer
+Dim objExcelApp 'as Excel.Application
+Dim objExcelDoc 'as Excel.Workbook
+
+Set objExcelApp = CreateObject("Excel.Application")
+
+objExcelApp.Visible = true 'false if you want to hide Excel
+objExcelApp.DisplayAlerts = false
+
+isError = false			'Handling the exception
+on error resume next
+   
+Set objExcelDoc = objExcelApp.Workbooks.Add
+
+Dim strSourceObject
+
+Dim qvObjectId 'as String 
+Dim sheetName
+Dim sheetRange
+Dim pasteMode
+Dim objSource
+Dim objCurrentSheet
+Dim objExcelSheet
+
+
+set v = ActiveDocument.Variables("vPlatinum")
+	
+	
+	set v1 = ActiveDocument.Variables("vGold")
+	'set v2 = ActiveDocument.Variables("vGrowth")
+
+ cellcount = v.getcontent.string + 9
+     ' msgbox(cellcount)
+      
+      
+     gr6="A" & cellcount
+     
+     gr7="A" & cellcount + v1.getcontent.string
+       'msgbox(gr7)
+
+
+
+for i = 0 to UBOUND(aryExportDefinition)
+
+	'// Get the properties of the exportDefinition array
+	qvObjectId = aryExportDefinition(i,0)
+	sheetName = aryExportDefinition(i,1)
+	sheetRange = aryExportDefinition(i,2)
+	pasteMode = aryExportDefinition(i,3)
+                
+	Set objExcelSheet = Excel_GetSheetByName(objExcelDoc, sheetName)
+	if (objExcelSheet is nothing) then
+		Set objExcelSheet = Excel_AddSheet(objExcelApp, sheetName)
+		if (objExcelSheet is nothing) then
+			msgbox("No sheet could be created, this should not occur!!!")
+		end if
+	end if
+                
+    objExcelSheet.Select            
+
+	set objSource = qvDoc.GetSheetObject(qvObjectId)
+	Call objSource.GetSheet().Activate()
+	'objSource.Maximize
+	qvDoc.GetApplication.WaitForIdle
+			
+				
+	if (not objSource is nothing) then
+	
+		if (pasteMode = "image") then
+			Call objSource.CopyBitmapToClipboard()
+		elseif(pasteMode = "text") then
+			Call objSource.CopyTextToClipboard()
+		 else
+			Call objSource.CopyTableToClipboard(true) '// default & fallback
+		end if
+		
+		Set objCurrentSheet = objExcelDoc.Sheets(sheetName)
+		objExcelDoc.Sheets(sheetName).Range(sheetRange).Select
+		objExcelDoc.Sheets(sheetName).Paste
+		
+		if (pasteMode <> "image") then
+		With objExcelApp.Selection
+            .WrapText = False
+            .ShrinkToFit = False
+		End With                     
+		end if        
+		
+		'objCurrentSheet.Range("A1").Select    
+	end if
+
+'vTimePeriod               
+               
+next
+
+
+
+
+
+
+
+
+
+
+
+
+'objExcelApp.Sheets("Sheet1").Select  
+'objExcelApp.ActiveSheet.PageSetup.Zoom = 55
+
+
+
+
+
+ 
+objExcelApp.ActiveSheet.Columns("A").ColumnWidth =20
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth =27.14
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth =18
+objExcelApp.ActiveSheet.Columns("D").ColumnWidth =22.10
+objExcelApp.ActiveSheet.Columns("E").ColumnWidth =18.29
+objExcelApp.ActiveSheet.Columns("F").ColumnWidth =21.86
+objExcelApp.ActiveSheet.Columns("G").ColumnWidth =20
+'objExcelApp.ActiveSheet.Columns("H").ColumnWidth =16
+'objExcelApp.ActiveSheet.Columns("I").ColumnWidth =16
+
+
+
+
+
+
+Call Excel_DeleteBlankSheets(objExcelDoc)
+
+'// Finally select the first sheet	
+objExcelDoc.Sheets(1).Select
+objExcelApp.Sheets("Sheet1").Name = "GFX"
+
+'FORMAT SHEET 2
+
+objExcelApp.Columns("C:D").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+objExcelApp.Columns("F").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+  
+'// Return value
+Set copyObjectsToExcelSheet = objExcelDoc
+if err.number <> 0 then	'Exception handling
+        	msgBox("Download interuppted or Exception occured")
+        	isError = true
+else       	
+set PrintOut = ActiveDocument.Variables("vPrintOut")
+  'if(PrintOut.GetContent.String="1") then
+	'objExcelApp.ActiveWorkbook.PrintOut
+	'end if
+        	end if
+        	
+        	objExcelApp.Range("A2:G2").Select
+        	
+        	Set vseg = ActiveDocument.Variables("Mseg")
+        	
+
+    
+			    objExcelApp.ActiveCell.FormulaR1C1 =vseg.GetContent.String & "  Priority Accounts"
+			    
+	
+	
+	
+        	
+        	 With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        .FontStyle = "Bold"
+			        .Color = RGB(0,0,255)
+			        .Name = "Arial"
+                    .Size = 18
+			    End With
+			    
+			    
+			   
+			    
+			    
+			    objExcelApp.Range("A1").Select
+        	objExcelApp.ActiveCell.FormulaR1C1 = "CONFIDENTIAL"
+			    
+			    With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        .FontStyle = "Bold"
+			        .Color = 152
+			        .Name = "Arial"
+                    .Size = 12
+			    End With
+			    
+			    
+		
+'objExcelApp.Range("A4:H4").Select
+   ' With objExcelApp.Selection.Interior
+       
+      ' .Pattern = xlSolid
+        '.PatternColorIndex = xlAutomatic
+        
+        ' .Color = RGB (136, 186, 234)
+      
+       ' .PatternTintAndShade = 0
+   ' End With
+    
+     objExcelApp.Range("G1").Select
+        	objExcelApp.ActiveCell.FormulaR1C1 = "As of  " &[Date]
+			    
+			    With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        
+			      
+			        .Name = "Arial"
+                    .Size = 12
+			    End With
+			    
+	'msgbox(gr6)	
+objExcelApp.ActiveSheet.Range("A9").Select
+	 
+	  With objExcelApp.Selection
+	  .VerticalAlignment=-4108
+	  .Orientation = 90
+	  .Font.Bold = True
+      End With
+ objExcelApp.ActiveSheet.Range("A9").Entirerow.Select
+       With objExcelApp.Selection
+        .Borders(9).LineStyle = 1
+        .Borders(9).ColorIndex = 0
+        .Borders(9).TintAndShade = 0
+        .Borders(9).Weight = 2
+        .Font.Size = 11
+        
+    End With
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+      'ActiveCell.Interior.ColorIndex = 36
+
+  objExcelApp.ActiveSheet.Range(gr6).Select
+    With  objExcelApp.Selection
+    .VerticalAlignment=-4108
+     .Orientation = 90
+     .Font.Bold = True
+    End With
+     
+ 		objExcelApp.ActiveSheet.Range(gr6).Entirerow.Select 
+        With objExcelApp.Selection
+        .Borders(9).LineStyle = 1
+        .Borders(9).ColorIndex = 0
+        .Borders(9).TintAndShade = 0
+        .Borders(9).Weight = 2
+        .Font.Size = 11
+    End With   
+   
+    
+    objExcelApp.ActiveSheet.Range(gr7).Select
+         With  objExcelApp.Selection
+         .VerticalAlignment=-4108
+         .Orientation = 90
+         .Font.Bold = True
+    End With
+   		objExcelApp.ActiveSheet.Range(gr7).Entirerow.Select 
+       With objExcelApp.Selection
+        .Font.Size = 11
+        
+    End With
+    
+objExcelApp.ActiveSheet.Range("A3:G7").Select 
+       With objExcelApp.Selection
+        .Font.Size = 11
+        End With  
+           
+With objExcelApp.ActiveSheet.PageSetup
+    
+'        .LeftHeader = ""
+'        .CenterHeader = ""
+'        .RightHeader = ""
+'        .LeftFooter = ""
+'        .CenterFooter = ""
+'        .RightFooter = ""
+        .LeftMargin = 36
+        .RightMargin = 16
+        .TopMargin = 18
+        .BottomMargin = 18
+        .HeaderMargin = Application.InchesToPoints(0.3)
+        .FooterMargin = Application.InchesToPoints(0.3)
+'        .PrintHeadings = False
+'        .PrintGridlines = False
+'        .PrintComments = xlPrintNoComments
+'        .PrintQuality = 600
+'        .CenterHorizontally = False
+'        .CenterVertically = False
+'        .Orientation = xlLandscape
+'        .Draft = False
+'        .PaperSize = xlPaperLetter
+'        .FirstPageNumber = xlAutomatic
+'        .Order = xlDownThenOver
+'        .BlackAndWhite = False
+        .Zoom = 48
+'        .PrintErrors = xlPrintErrorsDisplayed
+'        .OddAndEvenPagesHeaderFooter = False
+'        .DifferentFirstPageHeaderFooter = False
+'        .ScaleWithDocHeaderFooter = True
+'        .AlignMarginsHeaderFooter = True
+'        .EvenPage.LeftHeader.Text = ""
+'        .EvenPage.CenterHeader.Text = "hai1"
+'        .EvenPage.RightHeader.Text = ""
+'        .EvenPage.LeftFooter.Text = ""
+'        .EvenPage.CenterFooter.Text = ""
+'        .EvenPage.RightFooter.Text = ""
+'        .FirstPage.LeftHeader.Text = ""
+'        .FirstPage.CenterHeader.Text = "hai"
+'        .FirstPage.RightHeader.Text = ""
+'        .FirstPage.LeftFooter.Text = ""
+'        .FirstPage.CenterFooter.Text = ""
+'        .FirstPage.RightFooter.Text = ""
+'        .CenterFooter =" "
+ 
+    End With
+'Sheet = ActiveDocument.Variables("vCurrentSheet").getcontent.string    
+'if Sheet = "Document\SH29" then
+objExcelApp.ActiveWindow.Zoom = 110
+'end if
+objExcelApp.ActiveSheet.PrintPreview
+                
+			    
+			    
+
+'ActiveDocument.Sheets("SH19").Activate
+
+
+end function
+
+'// ________________________________________________________________
+
+
+
+
+'sub DefaultSegmentation
+'
+''set fld=ActiveDocument.GetField("%Manager")
+'
+'set fld=ActiveDocument.GetField("%MGR_NBID")
+''ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+'	if fld.GetValueCount(1) ="1" then
+'	
+'	
+''ActiveDocument.Fields("%Manager").Lock
+''ActiveDocument.Fields("%Manager").ClearAllButThis
+'Set Val=ActiveDocument.Fields("DefaultSegmentation").GetPossibleValues
+'ActiveDocument.Fields("[Master Segmentation]").SelectValues Val
+'
+'
+'
+'		Set Val=ActiveDocument.Fields("%MGR_NBID").GetPossibleValues
+'		ActiveDocument.Fields("%MGR_NBID_IL").SelectValues Val
+'		'ActiveDocument.Fields("%MGR_NBID_IL").Lock		
+'	'next
+'		
+'		
+'		'ActiveDocument.Fields("[MANAGER GROUP]").SelectPossible
+'		
+'		Set Val=ActiveDocument.Fields("ExcludeMgrGroup_IL").GetPossibleValues
+'		ActiveDocument.Fields("[MANAGER GROUP]").SelectValues Val
+'		ActiveDocument.Fields("[MANAGER GROUP]").SelectExcluded
+'		ActiveDocument.Fields("[MANAGER GROUP]").SelectPossible
+'		
+'		
+'		
+'		ActiveDocument.Fields("%Manager").UnLock
+'
+'	end if
+'Call Back_Solution
+'end sub
+
+
+
+'sub DefaultSegmentation
+'
+'set fld=ActiveDocument.GetField("%MGR_NBID")
+''ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+'	if fld.GetValueCount(1) ="1" then
+'	
+'	
+'ActiveDocument.Fields("%Manager").Lock
+'ActiveDocument.Fields("%Manager").ClearAllButThis
+'Set Val=ActiveDocument.Fields("DefaultSegmentation").GetPossibleValues
+'ActiveDocument.Fields("[Master Segmentation]").SelectValues Val
+'
+'ActiveDocument.Fields("[Master Segmentation]").Lock
+'
+'		Set Val=ActiveDocument.Fields("%MGR_NBID").GetPossibleValues
+'		ActiveDocument.Fields("%MGR_NBID_IL").SelectValues Val
+'		
+'		
+'		'ActiveDocument.Fields("[MANAGER GROUP]").SelectPossible
+'		
+'		Set Val=ActiveDocument.Fields("ExcludeMgrGroup_IL").GetPossibleValues
+'		ActiveDocument.Fields("[MANAGER GROUP]").SelectValues Val
+'		ActiveDocument.Fields("[MANAGER GROUP]").SelectExcluded
+'		'ActiveDocument.Fields("[MANAGER GROUP]").SelectPossible
+'		
+'		
+'		
+'		ActiveDocument.Fields("%Manager").UnLock
+'		ActiveDocument.Fields("[Master Segmentation]").UnLock
+'      ActiveDocument.Fields("TimePeriod").Select "YTD"
+'	end if
+'	ActiveDocument.Fields("TimePeriod").Select "YTD"
+'Call Back_Solution
+'end sub
+
+
+sub DefaultSegmentation
+ 
+ set fld=ActiveDocument.GetField("%MGR_NBID")
+ set mktrfld=ActiveDocument.GetField("%MKTR_NBID")
+
+ 
+ if fld.GetValueCount(1)= "1" then	
+	
+    ActiveDocument.Fields("%Manager").Lock
+    ActiveDocument.Fields("%Manager").ClearAllButThis
+    
+ elseif  mktrfld.GetValueCount(1)   ="1" then 
+ 
+    ActiveDocument.Fields("Marketer").Lock
+    ActiveDocument.Fields("Marketer").ClearAllButThis
+         
+ end if   
+       
+   Set NBIDVal=ActiveDocument.Fields("%MGR_NBID").GetPossibleValues
+         ActiveDocument.Fields("%MGR_NBID_IL").SelectValues NBIDVal
+     
+     Set ExMgGroupVal=ActiveDocument.Fields("ExcludeMgrGroup_IL").GetPossibleValues
+     
+     Set DefaultSegVal=ActiveDocument.Fields("DefaultSegmentation").GetPossibleValues
+     
+     if ExMgGroupVal.count > 0 then 
+        ActiveDocument.Fields("[MANAGER GROUP]").SelectValues ExMgGroupVal
+		ActiveDocument.Fields("[MANAGER GROUP]").SelectExcluded
+     end if
+     
+        ActiveDocument.Fields("[Master Segmentation]").SelectValues DefaultSegVal
+        ActiveDocument.Fields("[Master Segmentation]").Lock
+
+      if fld.GetValueCount(1)= "1" then 
+		 ActiveDocument.Fields("%Manager").UnLock
+	  elseif mktrfld.GetValueCount(1)   ="1" then 
+	      ActiveDocument.Fields("Marketer").UnLock
+	  end if
+		 ActiveDocument.Fields("[Master Segmentation]").UnLock
+		 ActiveDocument.Fields("TimePeriod").Select "YTD"
+ 
+	ActiveDocument.Fields("TimePeriod").Select "YTD"
+    Call Back_Solution
+end sub
+
+
+sub MGRCLR
+ActiveDocument.Fields("%Manager").Clear
+
+
+end sub
+
+
+'sub test
+'
+'Set Val=ActiveDocument.Fields("%MGR_NBID").GetPossibleValues
+'set val1=ActiveDocument.Fields("%USER_NBID").GetPossibleValues
+'
+'Set vUser = ActiveDocument.Variables("vUSER_NBID")
+'
+'userid = vUser.GetContent.String
+'
+'set LB = ActiveDocument.GetSheetObject("LB501")
+'boxvalues=LB.GetPossibleValues
+'
+'for i = lbound(boxvalues) to ubound(boxvalues)  
+'msgbox(boxvalues(I))
+'if boxvalues(i)=userid then
+'
+' 'set test12=boxvalues(I)
+' ' msgbox(boxvalues(I))
+'  ActiveDocument.Fields("%Manager").SelectPossible
+'end if
+' 
+'NEXT
+'
+'
+'ActiveDocument.Fields("[%Manager]").Lock
+'
+'end sub
+
+
+
+
+sub MGR
+         
+'
+		Set Val=ActiveDocument.Fields("%MGR_NBID").GetPossibleValues
+		ActiveDocument.Fields("%MGR_NBID_IL").SelectValues Val
+		
+		
+		
+		Set Val=ActiveDocument.Fields("ExcludeMgrGroup_IL").GetPossibleValues
+		ActiveDocument.Fields("[MANAGER GROUP]").SelectValues Val
+		ActiveDocument.Fields("[MANAGER GROUP]").SelectExcluded
+
+		
+	
+end sub
+
+
+
+sub MasterSegmentation_OnClik
+ActiveDocument.Fields("[MANAGER GROUP]").Clear
+set fld=ActiveDocument.GetField("[Master Segmentation]")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	
+	Set Val=ActiveDocument.Fields("[Master Segment group ID]").GetPossibleValues
+ActiveDocument.Fields("[SEG_GROUP_ID_Rules]").SelectValues Val
+Set Val1=ActiveDocument.Fields("NODE_ID_Rules").GetPossibleValues
+ActiveDocument.Fields("GROUP_ID").SelectValues Val1
+ActiveDocument.Fields("[MANAGER GROUP]").SelectPossible
+
+	ActiveDocument.Fields("GROUP_ID").Clear
+	ActiveDocument.Fields("[SEG_GROUP_ID_Rules]").Clear
+    end if
+
+end sub
+
+
+
+
+
+sub MangerGroup_OnClik
+'ActiveDocument.Fields("[Master Segmentation]").Clear
+set fld=ActiveDocument.GetField("[MANAGER GROUP]")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	
+	Set Val=ActiveDocument.Fields("[GROUP_ID]").GetPossibleValues
+ActiveDocument.Fields("[NODE_ID_Rules]").SelectValues Val
+Set Val1=ActiveDocument.Fields("[SEG_GROUP_ID_Rules]").GetPossibleValues
+ActiveDocument.Fields("[Master Segment group ID]").SelectValues Val1
+ActiveDocument.Fields("[Master Segmentation]").SelectPossible
+
+
+ActiveDocument.Fields("[Master Segment group ID]").Clear
+ActiveDocument.Fields("[NODE_ID_Rules]").Clear
+	
+    end if
+
+end sub
+
+
+sub MangerSubGroup_OnClik
+ActiveDocument.Fields("[Master Segmentation]").Clear
+set fld=ActiveDocument.GetField("[SUB GROUP]")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+
+	Set Val=ActiveDocument.Fields("SUB_GROUP_ID").GetPossibleValues
+ActiveDocument.Fields("[NODE_ID_Rules]").SelectValues Val
+Set Val1=ActiveDocument.Fields("[SEG_GROUP_ID_Rules]").GetPossibleValues
+ActiveDocument.Fields("[Master Segment group ID]").SelectValues Val1
+ActiveDocument.Fields("[Master Segmentation]").SelectPossible
+
+	ActiveDocument.Fields("[Master Segment group ID]").Clear
+ActiveDocument.Fields("[NODE_ID_Rules]").Clear
+    end if
+
+end sub
+
+
+sub DeskName_OnClik
+ActiveDocument.Fields("[Master Segmentation]").Clear
+set fld=ActiveDocument.GetField("[DESK NAME]")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	
+	Set Val=ActiveDocument.Fields("[DESK_ID]").GetPossibleValues
+ActiveDocument.Fields("[NODE_ID_Rules]").SelectValues Val
+Set Val1=ActiveDocument.Fields("[SEG_GROUP_ID_Rules]").GetPossibleValues
+ActiveDocument.Fields("[Master Segment group ID]").SelectValues Val1
+ActiveDocument.Fields("[Master Segmentation]").SelectPossible
+
+	ActiveDocument.Fields("[Master Segment group ID]").Clear
+ActiveDocument.Fields("[NODE_ID_Rules]").Clear
+    end if
+
+end sub
+
+
+sub Marketer_OnClik
+'ActiveDocument.Fields("[Master Segmentation]").Clear
+set fld=ActiveDocument.GetField("[Marketer]")
+'ONLY SELECT POSSIBLE WHEN ONLY ONE MASTER_ID IS SELECTED
+	if fld.GetValueCount(1) ="1" then
+	
+	Set Val=ActiveDocument.Fields("[DESK_ID]").GetPossibleValues
+ActiveDocument.Fields("[NODE_ID_Rules]").SelectValues Val
+Set Val1=ActiveDocument.Fields("[SEG_GROUP_ID_Rules]").GetPossibleValues
+ActiveDocument.Fields("[Master Segment group ID]").SelectValues Val1
+ActiveDocument.Fields("[Master Segmentation]").SelectPossible
+
+	ActiveDocument.Fields("[Master Segment group ID]").Clear
+ActiveDocument.Fields("[NODE_ID_Rules]").Clear
+    end if
+
+end sub
+
+
+sub QVActiveSession
+End Sub
+
+sub ProductMixBold
+
+set obj = ActiveDocument.GetSheetObject("TX1233")
+fnt = obj.GetFrameDef.Font
+fnt.Bold = true
+obj.SetFont fnt
+
+set obj1 = ActiveDocument.GetSheetObject("TX1228")
+fnt1 = obj1.GetFrameDef.Font
+fnt1.Bold = false
+obj1.SetFont fnt1
+
+set obj2 = ActiveDocument.GetSheetObject("TX1232")
+fnt2 = obj2.GetFrameDef.Font
+fnt2.Bold = false
+obj2.SetFont fnt2
+
+end sub
+
+sub ClientIndustryBold
+
+set obj = ActiveDocument.GetSheetObject("TX1233")
+fnt = obj.GetFrameDef.Font
+fnt.Bold = false
+obj.SetFont fnt
+
+set obj1 = ActiveDocument.GetSheetObject("TX1228")
+fnt1 = obj1.GetFrameDef.Font
+fnt1.Bold = true
+obj1.SetFont fnt1
+
+set obj2 = ActiveDocument.GetSheetObject("TX1232")
+fnt2 = obj2.GetFrameDef.Font
+fnt2.Bold = false
+obj2.SetFont fnt2
+
+end sub
+
+
+sub TouchPointsBold
+
+set obj = ActiveDocument.GetSheetObject("TX1233")
+fnt = obj.GetFrameDef.Font
+fnt.Bold = false
+obj.SetFont fnt
+
+set obj1 = ActiveDocument.GetSheetObject("TX1228")
+fnt1 = obj1.GetFrameDef.Font
+fnt1.Bold = false
+obj1.SetFont fnt1
+
+set obj2 = ActiveDocument.GetSheetObject("TX1232")
+fnt2 = obj2.GetFrameDef.Font
+fnt2.Bold = true
+obj2.SetFont fnt2
+
+end sub
+
+sub OpenState
+
+ActiveDocument.Fields("TimePeriod").Select "YTD"
+
+'ActiveDocument.Fields("TradeDetailTimePeriod").Select "5 Days"
+
+End Sub
+
+
+
+
+'The object types are:
+
+'0=Unknown
+'1=List Box 
+'2=Multi Box
+'3=Statistics Box
+'4=Table Box
+'5=Button
+'6=Text Object
+'7=Current Selections Box
+'8=Input Box
+'9=Line/Arrow Object
+'10=Pivot Table
+'11=Straight Table
+'12=Bar Chart
+'13=Pie Chart
+'14=Scatter Chart
+'15=Line Chart
+'16=Combo Chart
+'17=Custom Object
+'18=Bookmark Object
+'19=Slider/Calendar Object
+'20=Grid Chart
+'21=Radar Chart
+'22=Gauge Chart
+
+
+sub FixObjects
+for s = 0 to ActiveDocument.NoOfSheets - 1
+   
+   
+    set vSheet= ActiveDocument.GetSheet(s)
+       Objects = vSheet.GetSheetObjects
+       For i = lBound(Objects) To uBound(Objects)
+              set vObject = Objects(i)
+              set vObjectProp = vObject.GetProperties
+              vOK = 0
+              
+              if vOK=0 AND vObject.GetObjectType = 5 then
+                 vObjectProp.Frame.AllowMoveSize = false
+              vObjectProp.Frame.AllowCopyClone = False
+
+                 vOK = 1
+              end if
+'chart object...
+              if vOK=0 AND ((vObject.GetObjectType >=10 AND vObject.GetObjectType <=16) OR (vObject.GetObjectType >=20 AND vObject.GetObjectType <=22)) then
+                 vObjectProp.GraphLayout.Frame.AllowMoveSize = false
+                  vObjectProp.GraphLayout.Frame.AllowCopyClone = false
+                 vOK = 1
+                 
+                end if
+                
+                if vOK=0 AND ((vObject.GetObjectType >=1 AND vObject.GetObjectType <=4) OR (vObject.GetObjectType >=6 AND vObject.GetObjectType <=9)  OR (vObject.GetObjectType >=17 AND vObject.GetObjectType <=19)) then
+                  vObjectProp.Layout.Frame.AllowMoveSize = false
+                   vObjectProp.Layout.Frame.AllowCopyClone = false
+
+                 vOK = 1
+                 
+                end if
+
+
+              
+           vObject.SetProperties vObjectProp
+              
+       Next
+next
+end sub
+
+
+
+
+sub ReleaseObjects
+for s = 0 to ActiveDocument.NoOfSheets - 1
+   
+   
+    set vSheet= ActiveDocument.GetSheet(s)
+       Objects = vSheet.GetSheetObjects
+       For i = lBound(Objects) To uBound(Objects)
+              set vObject = Objects(i)
+              set vObjectProp = vObject.GetProperties
+              vOK = 0
+              
+              if vOK=0 AND vObject.GetObjectType = 5 then
+                 vObjectProp.Frame.AllowMoveSize = true
+              vObjectProp.Frame.AllowCopyClone = true
+
+                 vOK = 1
+              end if
+'chart object...
+              if vOK=0 AND ((vObject.GetObjectType >=10 AND vObject.GetObjectType <=16) OR (vObject.GetObjectType >=20 AND vObject.GetObjectType <=22)) then
+                 vObjectProp.GraphLayout.Frame.AllowMoveSize = true
+                  vObjectProp.GraphLayout.Frame.AllowCopyClone = true
+                 vOK = 1
+                 
+                end if
+                
+                if vOK=0 AND ((vObject.GetObjectType >=1 AND vObject.GetObjectType <=4) OR (vObject.GetObjectType >=6 AND vObject.GetObjectType <=9)  OR (vObject.GetObjectType >=17 AND vObject.GetObjectType <=19)) then
+                  vObjectProp.Layout.Frame.AllowMoveSize = true
+                   vObjectProp.Layout.Frame.AllowCopyClone = true
+
+                 vOK = 1
+                 
+                end if
+
+
+              
+           vObject.SetProperties vObjectProp
+              
+       Next
+next
+end sub 
+
+
+sub tt
+set x = ActiveDocument.GetCurrentSelections
+s = x.Selections
+v = x.VarId
+for i = lbound(s) to ubound(s)
+    msgbox v(i)&" = "&s(i)
+next
+
+end sub
+
+
+
+
+sub exportToExcel_Variant2
+  'msgbox ("export to excel test")
+'  Set Ent=ActiveDocument.Fields("%ENT_NBID").GetSelectedValues
+	
+	set v = ActiveDocument.Variables("vShowDimension")
+	vChart = v.getcontent.string 
+	
+
+'     
+'    
+'if Ent.count=0 then 
+'       
+'   
+      set v = ActiveDocument.GetVariable("vExcelPrint")
+		v.SetContent "1",true  
+			
+'      
+'     
+      
+      
+'call Excel_AddSheet(ActiveDocument, Sheet4) 
+  	 set chart13 = ActiveDocument.GetSheetObject("CH333")
+	CellRect = ActiveDocument.GetApplication().GetEmptyRect()
+	CellRect.Height = chart13.GetRowCount
+	
+	
+	
+	
+	
+	
+
+  	 set chart13 = ActiveDocument.GetSheetObject("CH333")
+	CellRect = ActiveDocument.GetApplication().GetEmptyRect()
+	CellRect.Height = chart13.GetRowCount
+	
+    
+     a2 = "A" & CellRect.Height + 11
+     g2 = "H" & CellRect.Height + 11
+     l2 = "P" & CellRect.Height + 11
+ 
+   
+ Dim aryExport(6,3) 
+    
+ if(vChart = 2) then
+ 
+ 
+    
+   
+aryExport(0,0) = "CH341"
+aryExport(0,1) = "Sheet1"
+aryExport(0,2) = g2				
+aryExport(0,3) = "image"
+
+aryExport(1,0) = "CH342"
+aryExport(1,1) = "Sheet1"
+aryExport(1,2) = l2			
+aryExport(1,3) = "image"
+
+else 
+
+aryExport(0,0) = "CH339"
+aryExport(0,1) = "Sheet1"
+aryExport(0,2) = g2				
+aryExport(0,3) = "image"
+
+aryExport(1,0) = "CH340"
+aryExport(1,1) = "Sheet1"
+aryExport(1,2) = l2			
+aryExport(1,3) = "image"
+
+end if
+
+aryExport(2,0) = "CS80"
+aryExport(2,1) = "Sheet1"
+aryExport(2,2) = "O5"				
+aryExport(2,3) = "image"
+
+aryExport(3,0) = "CH329"
+aryExport(3,1) = "Sheet2"
+aryExport(3,2) = "A3"				
+aryExport(3,3) = "data"
+
+Set RegionCount =ActiveDocument.Fields("[Functional Region]").GetSelectedValues
+
+if RegionCount.count=0 then 
+
+aryExport(4,0) = "CH350"
+aryExport(4,1) = "Sheet1"
+aryExport(4,2) ="A10"			
+aryExport(4,3) = "data"
+
+else
+
+aryExport(4,0) = "CH333"
+aryExport(4,1) = "Sheet1"
+aryExport(4,2) ="A10"			
+aryExport(4,3) = "data"
+
+end if
+
+
+
+if RegionCount.count=0 then 
+
+aryExport(5,0) = "CH346"
+aryExport(5,1) = "Sheet1"
+aryExport(5,2) = "A4"				
+aryExport(5,3) = "data"
+
+else 
+
+aryExport(5,0) = "CH351"
+aryExport(5,1) = "Sheet1"
+aryExport(5,2) = "A4"				
+aryExport(5,3) = "data"
+
+end if
+
+
+
+
+aryExport(6,0) = "CH329"
+aryExport(6,1) = "Sheet1"
+aryExport(6,2) = a2				
+aryExport(6,3) = "image"
+
+
+
+'ActiveDocument
+
+
+Dim objExcelWorkbook 'as Excel.Workbook  CS59
+Set objExcelApp = CreateObject("Excel.Application")
+Set objExcelWorkbook = copyObjectsToExcelSheetv2(ActiveDocument, aryExport)
+
+'end if 
+	    if(v.GetContent.String="1") then
+		  v.SetContent "0",true 	
+		end if
+		
+end sub
+
+
+
+
+
+
+
+
+'=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+Private Function copyObjectsToExcelSheetv2(qvDoc, aryExportDefinition) 'as Excel.Workbook
+
+
+Dim i 'as Integer
+Dim objExcelApp 'as Excel.Application
+Dim objExcelDoc 'as Excel.Workbook
+
+Set objExcelApp = CreateObject("Excel.Application")
+
+objExcelApp.Visible = true 'false if you want to hide Excel
+objExcelApp.DisplayAlerts = false
+
+isError = false			'Handling the exception
+on error resume next
+   
+Set objExcelDoc = objExcelApp.Workbooks.Add
+
+Dim strSourceObject
+
+Dim qvObjectId 'as String 
+Dim sheetName
+Dim sheetRange
+Dim pasteMode
+Dim objSource
+Dim objCurrentSheet
+Dim objExcelSheet
+
+
+'set v = ActiveDocument.Variables("vPlatinum")
+'	
+'	
+'	set v1 = ActiveDocument.Variables("vGold")
+'	'set v2 = ActiveDocument.Variables("vGrowth")
+'
+' cellcount = v.getcontent.string + 9
+'     ' msgbox(cellcount)
+'      
+'      
+'     gr6="A" & cellcount
+'     
+'     gr7="A" & cellcount + v1.getcontent.string
+'       'msgbox(gr7)
+
+
+
+for i = 0 to UBOUND(aryExportDefinition)
+
+	'// Get the properties of the exportDefinition array
+	qvObjectId = aryExportDefinition(i,0)
+	sheetName = aryExportDefinition(i,1)
+	sheetRange = aryExportDefinition(i,2)
+	pasteMode = aryExportDefinition(i,3)
+                
+	Set objExcelSheet = Excel_GetSheetByName(objExcelDoc, sheetName)
+	if (objExcelSheet is nothing) then
+		Set objExcelSheet = Excel_AddSheet(objExcelApp, sheetName)
+		if (objExcelSheet is nothing) then
+			msgbox("No sheet could be created, this should not occur!!!")
+		end if
+	end if
+                
+    objExcelSheet.Select            
+
+	set objSource = qvDoc.GetSheetObject(qvObjectId)
+	Call objSource.GetSheet().Activate()
+	'objSource.Maximize
+	qvDoc.GetApplication.WaitForIdle
+			
+				
+	if (not objSource is nothing) then
+	
+		if (pasteMode = "image") then
+			Call objSource.CopyBitmapToClipboard()
+		elseif(pasteMode = "text") then
+			Call objSource.CopyTextToClipboard()
+		 else
+			Call objSource.CopyTableToClipboard(true) '// default & fallback
+		end if
+		
+		Set objCurrentSheet = objExcelDoc.Sheets(sheetName)
+		objExcelDoc.Sheets(sheetName).Range(sheetRange).Select
+		objExcelDoc.Sheets(sheetName).Paste
+		
+		if (pasteMode <> "image") then
+		With objExcelApp.Selection
+            .WrapText = False
+            .ShrinkToFit = False
+		End With                     
+		end if        
+		
+		'objCurrentSheet.Range("A1").Select    
+	end if
+
+'vTimePeriod               
+               
+next
+
+
+
+
+
+
+
+
+
+
+
+
+'objExcelApp.Sheets("Sheet1").Select  
+'objExcelApp.ActiveSheet.PageSetup.Zoom = 55
+
+
+
+Call Excel_DeleteBlankSheets(objExcelDoc)
+
+'// ++++++++++++++++++++++++++++++++++++++++First Sheet Design 
+objExcelDoc.Sheets(1).Select
+objExcelApp.Sheets("Sheet1").Name = "GFX"
+
+objExcelApp.ActiveSheet.Columns("A").ColumnWidth =20
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth =11.70
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth =8.71
+objExcelApp.ActiveSheet.Columns("D").ColumnWidth =11.70
+objExcelApp.ActiveSheet.Columns("E").ColumnWidth =8.43
+objExcelApp.ActiveSheet.Columns("F").ColumnWidth =11.70
+objExcelApp.ActiveSheet.Columns("G").ColumnWidth =8.29
+objExcelApp.ActiveSheet.Columns("H").ColumnWidth =11.70
+objExcelApp.ActiveSheet.Columns("I").ColumnWidth =8.14
+objExcelApp.ActiveSheet.Columns("J").ColumnWidth =11.70
+objExcelApp.ActiveSheet.Columns("K").ColumnWidth =10
+objExcelApp.ActiveSheet.Columns("L").ColumnWidth =10
+objExcelApp.ActiveSheet.Columns("M").ColumnWidth =8.43
+objExcelApp.ActiveSheet.Columns("N").ColumnWidth =13.43
+objExcelApp.ActiveSheet.Columns("O").ColumnWidth =9
+objExcelApp.ActiveSheet.Columns("P").ColumnWidth =10
+objExcelApp.ActiveSheet.Columns("Q").ColumnWidth =8.86
+objExcelApp.ActiveSheet.Columns("R").ColumnWidth =15
+objExcelApp.ActiveSheet.Columns("S").ColumnWidth =10
+objExcelApp.ActiveSheet.Columns("T").ColumnWidth =10
+objExcelApp.ActiveSheet.Columns("U").ColumnWidth =8.43
+
+
+
+  	 set chart13 = ActiveDocument.GetSheetObject("CH333")
+	CellRect = ActiveDocument.GetApplication().GetEmptyRect()
+	CellRect.Height = chart13.GetRowCount
+	
+    
+     c2 = "C" & CellRect.Height + 9
+     g2 = "G" & CellRect.Height + 9
+     k2 = "K" & CellRect.Height + 9
+     o2 = "O" & CellRect.Height + 9
+     s2 = "S" & CellRect.Height + 9
+
+
+    
+  
+'// Return value
+Set copyObjectsToExcelSheetv2 = objExcelDoc
+if err.number <> 0 then	'Exception handling
+        	msgBox("Download interuppted or Exception occured")
+        	isError = true
+else       	
+set PrintOut = ActiveDocument.Variables("vPrintOut")
+  'if(PrintOut.GetContent.String="1") then
+	'objExcelApp.ActiveWorkbook.PrintOut
+	'end if
+        	end if
+        	
+        	objExcelApp.Range("A2:K2").Select
+        	
+        	Set vseg = ActiveDocument.Variables("Mseg")
+        	
+
+    
+			    objExcelApp.ActiveCell.FormulaR1C1 =vseg.GetContent.String & "  Focus Accounts"
+			    
+	
+	
+	
+        	
+        	 With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			        .Interior.Color = rgb(0,30,66)
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        .FontStyle = "Bold"
+			        .Color = RGB(255,255,255)
+			        .Name = "Calibri"
+                    .Size = 18
+                    .Underline = xlUnderlineStyleSingle
+			    End With
+			    
+			    
+			   
+			    
+			    
+			    objExcelApp.Range("A1").Select
+        	objExcelApp.ActiveCell.FormulaR1C1 = "CONFIDENTIAL" 
+			    
+			    With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        .FontStyle = "Bold"
+			        .Color = rgb(255,0,0)
+			        .Name = "Calibri"
+                    .Size = 12
+			    End With
+			    
+			    
+		
+'objExcelApp.Range("A4:H4").Select
+   ' With objExcelApp.Selection.Interior
+       
+      ' .Pattern = xlSolid
+        '.PatternColorIndex = xlAutomatic
+        
+        ' .Color = RGB (136, 186, 234)
+      
+       ' .PatternTintAndShade = 0
+   ' End With
+    
+     objExcelApp.Range("T1").Select
+        	objExcelApp.ActiveCell.FormulaR1C1 = "As of  " &[Date]
+			    
+			    With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        
+			      
+			        .Name = "Calibri"
+                    .Size = 12
+                    .Color = rgb(255,255,255)
+			    End With
+	  
+	  objExcelApp.Range("A1:U1").Select
+	  	 With objExcelApp.Selection
+	  	 	.Interior.Color = rgb(0,30, 66)
+	  	 	end With
+	  
+	  	  objExcelApp.Range("L4:U4").Select
+	  	 With objExcelApp.Selection
+	  	 	.Interior.Color = rgb(0,30, 66)
+	  	 	end With
+	  		    
+	  objExcelApp.Range("L2:U2").Select
+	  	 With objExcelApp.Selection
+	  	 	.Interior.Color = rgb(0,30, 66)
+	  	 	end With
+	  	 	
+	  objExcelApp.Range("A4:U4").Select
+	  	 With objExcelApp.Selection
+	  	 	.Interior.Color = rgb(0,30, 66)
+	  	 	end With
+	  	 	
+	  objExcelApp.Range("A4").Select
+	  	 With objExcelApp.Selection
+	  	 	.Interior.Color = rgb(224,236,254)
+	  	 	end With	  	  	 	
+
+	 
+'++++++++++++++++++++++++++++++++++++++++++++++++Number Format
+
+      
+     
+
+	 objExcelApp.Columns("B").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+objExcelApp.Columns("D").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    objExcelApp.Columns("F").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    
+    objExcelApp.Columns("H").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+	
+	
+	 objExcelApp.Columns("J").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+objExcelApp.Columns("L").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    objExcelApp.Columns("M").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    
+    objExcelApp.Columns("N").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+     
+objExcelApp.Columns("P").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    objExcelApp.Columns("Q").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    
+    objExcelApp.Columns("R").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+        objExcelApp.Columns("T").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    
+    objExcelApp.Columns("U").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+ 
+   		    
+	objExcelApp.Range("C6:C8" ).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+     
+     	objExcelApp.Range("C12:"&c2).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+'     
+	objExcelApp.Range("E6:E8").Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+'     
+      
+     	objExcelApp.Range("G6:G8").Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+'     
+     	objExcelApp.Range("G12:"&g2).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+     
+     	objExcelApp.Range("I6:I8").Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+'     
+'     
+     	objExcelApp.Range("K6:K8").Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+     
+          	objExcelApp.Range("K12:"&k2).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+     
+          
+          	objExcelApp.Range("O12:" & o2).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+     
+          
+          	objExcelApp.Range("S12:" & s2).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+
+           
+'With objExcelApp.ActiveSheet.PageSetup
+'    
+''        .LeftHeader = ""
+''        .CenterHeader = ""
+''        .RightHeader = ""
+''        .LeftFooter = ""
+''        .CenterFooter = ""
+''        .RightFooter = ""
+''        .LeftMargin = 36
+''        .RightMargin = 16
+''        .TopMargin = 18
+''        .BottomMargin = 18
+''        .HeaderMargin = Application.InchesToPoints(0.3)
+''        .FooterMargin = Application.InchesToPoints(0.3)
+''        .PrintHeadings = False
+''        .PrintGridlines = False
+''        .PrintComments = xlPrintNoComments
+''        .PrintQuality = 600
+''        .CenterHorizontally = False
+''        .CenterVertically = False
+''        .Orientation = xlLandscape
+''        .Draft = False
+''        .PaperSize = xlPaperLetter
+''        .FirstPageNumber = xlAutomatic
+''        .Order = xlDownThenOver
+''        .BlackAndWhite = False
+'  '      .Zoom = 48
+''        .PrintErrors = xlPrintErrorsDisplayed
+''        .OddAndEvenPagesHeaderFooter = False
+''        .DifferentFirstPageHeaderFooter = False
+''        .ScaleWithDocHeaderFooter = True
+''        .AlignMarginsHeaderFooter = True
+''        .EvenPage.LeftHeader.Text = ""
+''        .EvenPage.CenterHeader.Text = "hai1"
+''        .EvenPage.RightHeader.Text = ""
+''        .EvenPage.LeftFooter.Text = ""
+''        .EvenPage.CenterFooter.Text = ""
+''        .EvenPage.RightFooter.Text = ""
+''        .FirstPage.LeftHeader.Text = ""
+''        .FirstPage.CenterHeader.Text = "hai"
+''        .FirstPage.RightHeader.Text = ""
+''        .FirstPage.LeftFooter.Text = ""
+''        .FirstPage.CenterFooter.Text = ""
+''        .FirstPage.RightFooter.Text = ""
+''        .CenterFooter =" "
+' 
+'    End With
+''Sheet = ActiveDocument.Variables("vCurrentSheet").getcontent.string    
+''if Sheet = "Document\SH29" then
+
+
+'+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++End First Sheet Design
+'// ++++++++++++++++++++++++++++++++++++++++Second Sheet Design 
+objExcelDoc.Sheets(2).Select
+objExcelApp.Sheets("Sheet2").Name = "Marketers"
+
+objExcelApp.ActiveSheet.Columns("A").ColumnWidth =25
+objExcelApp.ActiveSheet.Columns("B").ColumnWidth =20
+objExcelApp.ActiveSheet.Columns("C").ColumnWidth =15
+objExcelApp.ActiveSheet.Columns("D").ColumnWidth =15
+objExcelApp.ActiveSheet.Columns("E").ColumnWidth =15
+objExcelApp.ActiveSheet.Columns("F").ColumnWidth =15
+objExcelApp.ActiveSheet.Columns("G").ColumnWidth =10
+
+ 
+  	 set chart1313 = ActiveDocument.GetSheetObject("CH329")
+	CellRect = ActiveDocument.GetApplication().GetEmptyRect()
+	CellRect.Height = chart1313.GetRowCount
+	
+    
+     d3 = "D" & CellRect.Height + 3   
+  
+'// Return value
+'Set copyObjectsToExcelSheetv2 = objExcelDoc
+'if err.number <> 0 then	'Exception handling
+'        	msgBox("Download interuppted or Exception occured")
+'        	isError = true
+'else       	
+'set PrintOut = ActiveDocument.Variables("vPrintOut")
+'  'if(PrintOut.GetContent.String="1") then
+'	'objExcelApp.ActiveWorkbook.PrintOut
+'	'end if
+'        	end if
+        	
+        	objExcelApp.Range("A1:J2").Select
+        	
+'        	Set vseg = ActiveDocument.Variables("Mseg")
+        	
+
+    
+			    objExcelApp.ActiveCell.FormulaR1C1 ="             Marketer Production"
+			    
+	
+	
+	
+        	
+        	 With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			        .Interior.Color = rgb(0,30,66)
+			        .VerticalAlignment = xlCenter
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        .FontStyle = "Bold"
+			        .Color = RGB(255,255,255)
+			        .Name = "Calibri"
+                    .Size = 16
+                    .Underline = xlUnderlineStyleSingle
+			    End With
+			    
+			    
+			   
+			    
+			    
+'			    objExcelApp.Range("A1").Select
+'        	objExcelApp.ActiveCell.FormulaR1C1 = "CONFIDENTIAL"
+'			    
+'			    With objExcelApp.Selection
+'			     	.MergeCells = True
+'			        .HorizontalAlignment=-4108
+'			     end With
+'        	
+'			    With objExcelApp.Selection.Font
+'			        .FontStyle = "Bold"
+'			        .Color = rgb(255,0,0)
+'			        .Name = "Calibri"
+'                    .Size = 12
+'			    End With
+'			    
+			    
+		
+'objExcelApp.Range("A4:H4").Select
+   ' With objExcelApp.Selection.Interior
+       
+      ' .Pattern = xlSolid
+        '.PatternColorIndex = xlAutomatic
+        
+        ' .Color = RGB (136, 186, 234)
+      
+       ' .PatternTintAndShade = 0
+   ' End With
+    
+     objExcelApp.Range("K1:L1").Select
+        	objExcelApp.ActiveCell.FormulaR1C1 = "As of  " &[Date]
+			    
+			    With objExcelApp.Selection
+			     	.MergeCells = True
+			        .HorizontalAlignment=-4108
+			     end With
+        	
+			    With objExcelApp.Selection.Font
+			        
+			      
+			        .Name = "Calibri"
+                    .Size = 12
+                    .Color = rgb(255,255,255)
+			    End With
+'	  
+	  objExcelApp.Range("K1:L2").Select
+	  	 With objExcelApp.Selection
+	  	 	.Interior.Color = rgb(0,30, 66)
+	  	 	end With
+	  
+'	  	  objExcelApp.Range("L4:U4").Select
+'	  	 With objExcelApp.Selection
+'	  	 	.Interior.Color = rgb(0,30, 66)
+'	  	 	end With
+'	  		    
+'	  objExcelApp.Range("L2:U2").Select
+'	  	 With objExcelApp.Selection
+'	  	 	.Interior.Color = rgb(0,30, 66)
+'	  	 	end With
+'	 
+'++++++++++++++++++++++++++++++++++++++++++++++++Number Format
+
+    objExcelApp.Columns("C").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+    
+    objExcelApp.Columns("E").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+        objExcelApp.Columns("F").Select
+    objExcelApp.Selection.NumberFormat = "#,##0"
+    
+     	objExcelApp.Range("D4:"&d3).Select
+     objExcelApp.Selection.NumberFormat = "0.00%"
+    
+
+    
+      
+'	 objExcelApp.Columns("C:C").Select
+'	' Range("C3").Activate
+'    objExcelApp.Selection.NumberFormat = "#,##0"
+'    
+'objExcelApp.Columns("E:E").Select
+'    objExcelApp.Selection.NumberFormat = "#,##0"
+'    
+'    objExcelApp.Columns("F:F").Select
+'    objExcelApp.Selection.NumberFormat = "#,##0"
+'
+'   		    
+'	objExcelApp.Columns("D:D").Select
+'     objExcelApp.Selection.NumberFormat = "0.00%"  
+           
+'With objExcelApp.ActiveSheet.PageSetup
+'    
+''        .LeftHeader = ""
+''        .CenterHeader = ""
+''        .RightHeader = ""
+''        .LeftFooter = ""
+''        .CenterFooter = ""
+''      .RightFooter = ""
+''        .LeftMargin = 36
+''        .RightMargin = 16
+''        .TopMargin = 18
+''        .BottomMargin = 18
+''        .HeaderMargin = Application.InchesToPoints(0.3)
+''        .FooterMargin = Application.InchesToPoints(0.3)
+''        .PrintHeadings = False
+''        .PrintGridlines = False
+''        .PrintComments = xlPrintNoComments
+''        .PrintQuality = 600
+''        .CenterHorizontally = False
+''        .CenterVertically = False
+''        .Orientation = xlLandscape
+''        .Draft = False
+''        .PaperSize = xlPaperLetter
+''        .FirstPageNumber = xlAutomatic
+''        .Order = xlDownThenOver
+''        .BlackAndWhite = False
+''        .Zoom = 48
+''        .PrintErrors = xlPrintErrorsDisplayed
+''        .OddAndEvenPagesHeaderFooter = False
+''        .DifferentFirstPageHeaderFooter = False
+''        .ScaleWithDocHeaderFooter = True
+''        .AlignMarginsHeaderFooter = True
+''        .EvenPage.LeftHeader.Text = ""
+''        .EvenPage.CenterHeader.Text = "hai1"
+''        .EvenPage.RightHeader.Text = ""
+''        .EvenPage.LeftFooter.Text = ""
+''        .EvenPage.CenterFooter.Text = ""
+''        .EvenPage.RightFooter.Text = ""
+''        .FirstPage.LeftHeader.Text = ""
+''        .FirstPage.CenterHeader.Text = "hai"
+''        .FirstPage.RightHeader.Text = ""
+''        .FirstPage.LeftFooter.Text = ""
+''        .FirstPage.CenterFooter.Text = ""
+''        .FirstPage.RightFooter.Text = ""
+''        .CenterFooter =" "
+' objExcelApp.Range("A4").Select
+' 
+'    End With
+
+'++++++++++++++++++++++++++++++++++++++++++++++++++++++++End of Second Sheet Design
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'objExcelApp.ActiveWindow.Zoom = 110
+'end if
+'objExcelApp.ActiveSheet.PrintPreview
+                
+objExcelDoc.Sheets(1).Select
+objExcelApp.Range("A1").Select	
+
+'
+'With objExcelApp.ActiveSheet.PageSetup
+'    
+''        .LeftHeader = ""
+''        .CenterHeader = ""
+''        .RightHeader = ""
+''        .LeftFooter = ""
+''        .CenterFooter = ""
+''      .RightFooter = ""
+'        .LeftMargin = Application.InchesToPoints(0.05)
+'        .RightMargin = Application.InchesToPoints(0.05)
+''        .TopMargin = 18
+''        .BottomMargin = 18
+''        .HeaderMargin = Application.InchesToPoints(0.3)
+''        .FooterMargin = Application.InchesToPoints(0.3)
+''        .PrintHeadings = False
+''        .PrintGridlines = False
+''        .PrintComments = xlPrintNoComments
+''        .PrintQuality = 600
+''        .CenterHorizontally = False
+''        .CenterVertically = False
+'        .Orientation = xlLandscape
+''        .Draft = False
+''        .PaperSize = xlPaperLetter
+''        .FirstPageNumber = xlAutomatic
+''        .Order = xlDownThenOver
+'        .BlackAndWhite = False
+'        .Zoom = 46
+''        .PrintErrors = xlPrintErrorsDisplayed
+''        .OddAndEvenPagesHeaderFooter = False
+''        .DifferentFirstPageHeaderFooter = False
+''        .ScaleWithDocHeaderFooter = True
+''        .AlignMarginsHeaderFooter = True
+''        .EvenPage.LeftHeader.Text = ""
+''        .EvenPage.CenterHeader.Text = "hai1"
+''        .EvenPage.RightHeader.Text = ""
+''        .EvenPage.LeftFooter.Text = ""
+''        .EvenPage.CenterFooter.Text = ""
+''        .EvenPage.RightFooter.Text = ""
+''        .FirstPage.LeftHeader.Text = ""
+''        .FirstPage.CenterHeader.Text = "hai"
+''        .FirstPage.RightHeader.Text = ""
+''        .FirstPage.LeftFooter.Text = ""
+''        .FirstPage.CenterFooter.Text = ""
+''        .FirstPage.RightFooter.Text = ""
+''        .CenterFooter =" "
+'    End With
+'    objExcelApp.ActiveWindow.SelectedSheets.PrintPreview 
+
+objExcelApp.ActiveSheet.PageSetup.LeftMargin = 0.05
+objExcelApp.ActiveSheet.PageSetup.RightMargin = 0.05
+objExcelApp.ActiveSheet.PageSetup.TopMargin = 20
+objExcelApp.ActiveSheet.PageSetup.BottomMargin = 50
+objExcelApp.ActiveSheet.PageSetup.Zoom = 57
+'objExcelApp.ActiveSheet.PageSetup.CenterVertically = True
+objExcelApp.ActiveSheet.PageSetup.Orientation = 2
+'objExcelApp.ActiveSheet.PageSetup.PaperSize=5
+
+    objExcelApp.Range("A11:U11").Select
+    With objExcelApp.Selection
+        .WrapText = True
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    
+
+
+
+objExcelApp.PageSetup.PrintGridlines = True
+
+  
+    
+ '   objExcelApp.ActiveWindow.SelectedSheets.PrintPreview	 
+'objExcelApp.Range("A1").Select			    
+'objExcelApp.ActiveSheet.PrintPreview
+
+'ActiveDocument.Sheets("SH19").Activate
+
+
+end function
+
+'// ________________________________________________________________
+
+
+'// ****************************************************************
+'// Internal function for getting the Excel sheet by sheetName
+'// ****************************************************************
+Private Function Excel_GetSheetByName(ByRef objExcelDoc, sheetName) 'as Excel.Sheet
+
+For Each ws In objExcelDoc.Worksheets
+	If (trim(ws.Name) = Excel_GetSafeSheetName(sheetName)) then
+		Set Excel_GetSheetByName = ws
+		exit function
+	End If
+Next
+
+'// default return value
+Set Excel_GetSheetByName = nothing
+                             
+End Function
+'// ________________________________________________________________
+
+
+Private Function Excel_GetSafeSheetName(sheetName)
+
+	'// can be max 31 characters long
+	retVal = trim(left(sheetName, 31))
+	
+	Excel_GetSafeSheetName = retVal
+End Function
+
+
+
+'// ****************************************************************
+'// Internal function for adding a new sheet
+'// ****************************************************************
+Private Function Excel_AddSheet(objExcelApplication, sheetName) ' as Excel.Sheet
+
+	'// add a sheet to the last position
+	objExcelApplication.Sheets.Add , objExcelApplication.Sheets(objExcelApplication.Sheets.Count)
+	
+	Dim objNewSheet
+	Set objNewSheet = objExcelApplication.Sheets(objExcelApplication.Sheets.Count)
+	objNewSheet.Name = left(sheetName,31)
+	
+	'// return the newly created sheet
+	Set Excel_AddSheet = objNewSheet
+
+End function
+'// ________________________________________________________________
+
+
+
+'// ****************************************************************
+'// Delete all empty sheets
+'// ****************************************************************
+Private Sub Excel_DeleteBlankSheets(ByRef objExcelDoc) 
+
+For Each ws In objExcelDoc.Worksheets
+	If (not HasOtherObjects(ws)) then
+		If objExcelDoc.Application.WorksheetFunction.CountA(ws.Cells) = 0 Then
+			On Error Resume Next
+			Call ws.Delete()
+		End If
+	End If
+Next 
+    
+End Sub 
+'// ________________________________________________________________
+
+
+
+
+'// ****************************************************************
+'// Helper function to determine if there are other objects placed
+'// on the sheet ...
+'// ****************************************************************
+Public Function HasOtherObjects(ByRef objSheet) 'As Boolean 
+    Dim c
+    If (objSheet.ChartObjects.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    If (objSheet.Pictures.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    If (objSheet.Shapes.Count > 0) Then
+    	HasOtherObjects = true
+    	Exit function
+    End If
+    
+    
+    HasOtherObjects = false
+End Function 
+
+
+sub Active_MainSheet
+
+
+ActiveDocument.Sheets("SH19").Activate
+
+
+end sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+'=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=PossibleCount(%MGR_NBID)=1,Only(%MGR_NBID),Only(MKTR_NBID))				=GetCurrentField([Segmentation])				=Year(Today())-1				=minstring(TimePeriod)				=count({<[MASTER_SEG_CD]={'PLATINUM'}>}MASTER_SEG_CD)				=count({<[MASTER_SEG_CD]={'GOLD'}>}MASTER_SEG_CD)				=count({<[MASTER_SEG_CD]={'GROWTH'}>}MASTER_SEG_CD)				=LTRIM(REPLACE(UPPER(OSUser()),LEFT(UPPER(OSUser()),5),''))				=subfield(GetFieldSelections([Master Segmentation]),'-',SubStringCount(GetFieldSelections([Master Segmentation]),'-')+1)
+ & '  ' &subfield(GetFieldSelections([Master Segmentation]),'-',1)				=Chr(39)&replace(GetFieldSelections([MANAGER GROUP],',',200) ,',',Chr(39)&','&Chr(39))&Chr(39)				=Chr(39)&replace(GetFieldSelections([SUB GROUP],',',200) ,',',Chr(39)&','&Chr(39))&Chr(39)				=Count({1<Deal_QTDFlag={1},[Manager]={'$(=[Manager])'}>} DISTINCT ACTIVITY_ID)				=Count({1<Deal_MTDFlag={1},[Manager]={'$(=[Manager])'}>} DISTINCT ACTIVITY_ID)				=GetFieldSelections([Master Segmentation])				=TextBetween( GetCurrentField([People Hierarchy]), '[', ']')     
